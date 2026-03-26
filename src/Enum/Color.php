@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Enum;
+namespace Pyreweb\Chroma\Enum;
 
-use App\Service\ColorService;
+use Pyreweb\Chroma\Service\ColorService;
 
 /**
  * Énumération des couleurs
