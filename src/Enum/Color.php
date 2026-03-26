@@ -12,7 +12,7 @@ use App\Service\ColorService;
  * @author Pyréweb <contact@pyreweb.com>
  * @author Hugo Doueil <hugo@pyreweb.com>
  */
-enum Colors: int
+enum Color: int
 {
 	// Couleurs de base, de 1 à 99
 
