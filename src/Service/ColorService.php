@@ -10,75 +10,76 @@ namespace Pyreweb\Chroma\Service;
  */
 class ColorService
 {
-	public const HEX_PREFIX = '#';
-
-	public const HEX_RED_OFFSET = 0;
-	public const HEX_GREEN_OFFSET = 2;
-	public const HEX_BLUE_OFFSET = 4;
-	public const HEX_COMPONENT_LENGTH = 2;
-
-	public const MIN_COMPONENT_VALUE = 0.0;
-	public const UNIT_VALUE = 1.0;
 	public const DEFAULT_ALPHA = 1.0;
 
-	public const RGB_CHANNEL_MAX = 255;
-	public const PERCENTAGE_FACTOR = 100;
+	private const HEX_PREFIX = '#';
 
-	public const DOUBLE_MULTIPLIER = 2;
-	public const SQUARE_EXPONENT = 2;
-	public const CUBE_ROOT_EXPONENT = 1 / 3;
+	private const HEX_RED_OFFSET = 0;
+	private const HEX_GREEN_OFFSET = 2;
+	private const HEX_BLUE_OFFSET = 4;
+	private const HEX_COMPONENT_LENGTH = 2;
 
-	public const HSL_LIGHTNESS_DIVISOR = 2;
-	public const HUE_SECTOR_DEGREES = 60;
-	public const FULL_CIRCLE_DEGREES = 360.0;
-	public const MIN_HUE_DEGREES = 0.0;
+	private const MIN_COMPONENT_VALUE = 0.0;
+	private const UNIT_VALUE = 1.0;
 
-	public const HUE_RED_MODULO = 6;
-	public const HUE_GREEN_OFFSET = 2;
-	public const HUE_BLUE_OFFSET = 4;
+	private const RGB_CHANNEL_MAX = 255;
+	private const PERCENTAGE_FACTOR = 100;
 
-	public const HSL_HUE_PRECISION = 0;
-	public const HSL_PERCENT_PRECISION = 0;
+	private const DOUBLE_MULTIPLIER = 2;
+	private const SQUARE_EXPONENT = 2;
+	private const CUBE_ROOT_EXPONENT = 1 / 3;
 
-	public const OKLCH_LIGHTNESS_PRECISION = 4;
-	public const OKLCH_CHROMA_PRECISION = 4;
-	public const OKLCH_HUE_PRECISION = 2;
+	private const HSL_LIGHTNESS_DIVISOR = 2;
+	private const HUE_SECTOR_DEGREES = 60;
+	private const FULL_CIRCLE_DEGREES = 360.0;
+	private const MIN_HUE_DEGREES = 0.0;
 
-	public const SRGB_LINEARIZE_THRESHOLD = 0.04045;
-	public const SRGB_LINEARIZE_LOW_DIVISOR = 12.92;
-	public const SRGB_LINEARIZE_OFFSET = 0.055;
-	public const SRGB_LINEARIZE_DIVISOR = 1.055;
-	public const SRGB_LINEARIZE_GAMMA = 2.4;
+	private const HUE_RED_MODULO = 6;
+	private const HUE_GREEN_OFFSET = 2;
+	private const HUE_BLUE_OFFSET = 4;
 
-	public const SRGB_TO_XYZ_RX = 0.4124564;
-	public const SRGB_TO_XYZ_RY = 0.2126729;
-	public const SRGB_TO_XYZ_RZ = 0.0193339;
-	public const SRGB_TO_XYZ_GX = 0.3575761;
-	public const SRGB_TO_XYZ_GY = 0.7151522;
-	public const SRGB_TO_XYZ_GZ = 0.1191920;
-	public const SRGB_TO_XYZ_BX = 0.1804375;
-	public const SRGB_TO_XYZ_BY = 0.0721750;
-	public const SRGB_TO_XYZ_BZ = 0.9503041;
+	private const HSL_HUE_PRECISION = 0;
+	private const HSL_PERCENT_PRECISION = 0;
 
-	public const XYZ_TO_LMS_LX = 0.8189330101;
-	public const XYZ_TO_LMS_LY = 0.3618667424;
-	public const XYZ_TO_LMS_LZ = -0.1288597137;
-	public const XYZ_TO_LMS_MX = 0.0329845436;
-	public const XYZ_TO_LMS_MY = 0.9293118715;
-	public const XYZ_TO_LMS_MZ = 0.0361456387;
-	public const XYZ_TO_LMS_SX = 0.0482003018;
-	public const XYZ_TO_LMS_SY = 0.2643662691;
-	public const XYZ_TO_LMS_SZ = 0.6338517070;
+	private const OKLCH_LIGHTNESS_PRECISION = 4;
+	private const OKLCH_CHROMA_PRECISION = 4;
+	private const OKLCH_HUE_PRECISION = 2;
 
-	public const LMS_TO_OKLAB_LL = 0.2104542553;
-	public const LMS_TO_OKLAB_LM = 0.7936177850;
-	public const LMS_TO_OKLAB_LS = -0.0040720468;
-	public const LMS_TO_OKLAB_AL = 1.9779984951;
-	public const LMS_TO_OKLAB_AM = -2.4285922050;
-	public const LMS_TO_OKLAB_AS = 0.4505937099;
-	public const LMS_TO_OKLAB_BL = 0.0259040371;
-	public const LMS_TO_OKLAB_BM = 0.7827717662;
-	public const LMS_TO_OKLAB_BS = -0.8086757660;
+	private const SRGB_LINEARIZE_THRESHOLD = 0.04045;
+	private const SRGB_LINEARIZE_LOW_DIVISOR = 12.92;
+	private const SRGB_LINEARIZE_OFFSET = 0.055;
+	private const SRGB_LINEARIZE_DIVISOR = 1.055;
+	private const SRGB_LINEARIZE_GAMMA = 2.4;
+
+	private const SRGB_TO_XYZ_RX = 0.4124564;
+	private const SRGB_TO_XYZ_RY = 0.2126729;
+	private const SRGB_TO_XYZ_RZ = 0.0193339;
+	private const SRGB_TO_XYZ_GX = 0.3575761;
+	private const SRGB_TO_XYZ_GY = 0.7151522;
+	private const SRGB_TO_XYZ_GZ = 0.1191920;
+	private const SRGB_TO_XYZ_BX = 0.1804375;
+	private const SRGB_TO_XYZ_BY = 0.0721750;
+	private const SRGB_TO_XYZ_BZ = 0.9503041;
+
+	private const XYZ_TO_LMS_LX = 0.8189330101;
+	private const XYZ_TO_LMS_LY = 0.3618667424;
+	private const XYZ_TO_LMS_LZ = -0.1288597137;
+	private const XYZ_TO_LMS_MX = 0.0329845436;
+	private const XYZ_TO_LMS_MY = 0.9293118715;
+	private const XYZ_TO_LMS_MZ = 0.0361456387;
+	private const XYZ_TO_LMS_SX = 0.0482003018;
+	private const XYZ_TO_LMS_SY = 0.2643662691;
+	private const XYZ_TO_LMS_SZ = 0.6338517070;
+
+	private const LMS_TO_OKLAB_LL = 0.2104542553;
+	private const LMS_TO_OKLAB_LM = 0.7936177850;
+	private const LMS_TO_OKLAB_LS = -0.0040720468;
+	private const LMS_TO_OKLAB_AL = 1.9779984951;
+	private const LMS_TO_OKLAB_AM = -2.4285922050;
+	private const LMS_TO_OKLAB_AS = 0.4505937099;
+	private const LMS_TO_OKLAB_BL = 0.0259040371;
+	private const LMS_TO_OKLAB_BM = 0.7827717662;
+	private const LMS_TO_OKLAB_BS = -0.8086757660;
 
 	public static function hex2rgb(string $hex): string
 	{
@@ -94,8 +95,11 @@ class ColorService
 
 	public static function rgb2rgba(string $rgb, float $alpha = self::DEFAULT_ALPHA): string
 	{
-		$rgb = self::parseRgb($rgb);
+		if ($alpha < 0.0 || $alpha > 1.0) {
+			throw new \InvalidArgumentException('Le niveau de transparence doit être compris entre 0 et 1.');
+		}
 
+		$rgb = self::parseRgb($rgb);
 		[$r, $g, $b] = $rgb;
 
 		return "rgba({$r}, {$g}, {$b}, {$alpha})";
@@ -212,12 +216,16 @@ class ColorService
 
 	private static function parseRgb(string $rgb): array
 	{
-		self::validateRgb($rgb);
-	
-		$parsedComponents = sscanf($rgb, 'rgb(%d, %d, %d)', $r, $g, $b);
+		if (!preg_match('/^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/', $rgb, $matches)) {
+			throw new \InvalidArgumentException('La couleur RGB doit être au format rgb(R, G, B) avec R, G et B entre 0 et 255.');
+		}
 
-		if ($parsedComponents !== 3) {
-			throw new \InvalidArgumentException('La couleur RGB ne peut pas être mal formatée.');
+		$r = (int) $matches[1];
+		$g = (int) $matches[2];
+		$b = (int) $matches[3];
+
+		if ($r > 255 || $g > 255 || $b > 255) {
+			throw new \InvalidArgumentException('La couleur RGB doit être au format rgb(R, G, B) avec R, G et B entre 0 et 255.');
 		}
 
 		return [$r, $g, $b];

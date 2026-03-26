@@ -12,77 +12,91 @@ use Pyreweb\Chroma\Service\ColorService;
 
 class ColorServiceTest extends TestCase
 {
-	public function testConvertHexToRgbReturnsExpectedValue(): void
+	public function testHex2RgbReturnsExpectedValue(): void
 	{
 		$this->assertSame('rgb(0, 0, 0)', ColorService::hex2rgb('#000000'));
 		$this->assertSame('rgb(255, 255, 255)', ColorService::hex2rgb('#FFFFFF'));
 		$this->assertSame('rgb(239, 68, 68)', ColorService::hex2rgb('#ef4444'));
 	}
 
-	public function testConvertHexToRgbAcceptsWithoutPrefix(): void
+	public function testHex2RgbAcceptsWithoutPrefix(): void
 	{
 		$this->assertSame('rgb(239, 68, 68)', ColorService::hex2rgb('ef4444'));
 	}
 
-	public function testConvertHexToRgbAcceptsMixedCase(): void
+	public function testHex2RgbAcceptsMixedCase(): void
 	{
 		$this->assertSame('rgb(239, 68, 68)', ColorService::hex2rgb('#EF4444'));
 		$this->assertSame('rgb(239, 68, 68)', ColorService::hex2rgb('#Ef4444'));
 	}
 
-	public function testConvertHexToRgbThrowsOnInvalidFormat(): void
+	public function testHex2RgbThrowsOnInvalidFormat(): void
 	{
 		$this->expectException(InvalidArgumentException::class);
 
 		ColorService::hex2rgb('#ZZZ000');
 	}
 
-	public function testConvertHexToRgbThrowsOnShortFormat(): void
+	public function testHex2RgbThrowsOnShortFormat(): void
 	{
 		$this->expectException(InvalidArgumentException::class);
 
 		ColorService::hex2rgb('#FFF');
 	}
 
-	public function testConvertHexToRgbThrowsOnEmptyString(): void
+	public function testHex2RgbThrowsOnEmptyString(): void
 	{
 		$this->expectException(InvalidArgumentException::class);
 
 		ColorService::hex2rgb('');
 	}
 
-	public function testConvertRgbToRgbaUsesDefaultAlpha(): void
+	public function testRgb2RgbaUsesDefaultAlpha(): void
 	{
 		$this->assertSame('rgba(0, 0, 0, 1)', ColorService::rgb2rgba('rgb(0, 0, 0)'));
 	}
 
-	public function testConvertRgbToRgbaUsesCustomAlpha(): void
+	public function testRgb2RgbaUsesCustomAlpha(): void
 	{
 		$this->assertSame('rgba(0, 0, 0, 0.5)', ColorService::rgb2rgba('rgb(0, 0, 0)', 0.5));
 		$this->assertSame('rgba(0, 0, 0, 0)', ColorService::rgb2rgba('rgb(0, 0, 0)', 0.0));
 		$this->assertSame('rgba(0, 0, 0, 1)', ColorService::rgb2rgba('rgb(0, 0, 0)', 1.0));
 	}
 
-	public function testConvertRgbToRgbaReturnsExpectedValue(): void
+	public function testRgb2RgbaReturnsExpectedValue(): void
 	{
 		$this->assertSame('rgba(239, 68, 68, 1)', ColorService::rgb2rgba('rgb(239, 68, 68)'));
 	}
 
-	public function testConvertRgbToRgbaThrowsOnInvalidRgb(): void
+	public function testRgb2RgbaThrowsOnAlphaOutOfRange(): void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+
+		ColorService::rgb2rgba('rgb(0, 0, 0)', -0.5);
+	}
+
+	public function testRgb2RgbaThrowsOnAlphaAboveOne(): void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+		
+		ColorService::rgb2rgba('rgb(0, 0, 0)', 1.5);
+	}
+
+	public function testRgb2RgbaThrowsOnInvalidRgb(): void
 	{
 		$this->expectException(InvalidArgumentException::class);
 
 		ColorService::rgb2rgba('rgb(999, 0, 0)');
 	}
 
-	public function testConvertRgbToRgbaThrowsOnMalformedString(): void
+	public function testRgb2RgbaThrowsOnMalformedString(): void
 	{
 		$this->expectException(InvalidArgumentException::class);
 
 		ColorService::rgb2rgba('not-a-color');
 	}
 
-	public function testConvertRgbToHslReturnsExpectedValue(): void
+	public function testRgb2HslReturnsExpectedValue(): void
 	{
 		$this->assertSame('hsl(0, 0%, 0%)', ColorService::rgb2hsl('rgb(0, 0, 0)'));
 		$this->assertSame('hsl(0, 0%, 100%)', ColorService::rgb2hsl('rgb(255, 255, 255)'));
@@ -91,14 +105,14 @@ class ColorServiceTest extends TestCase
 		$this->assertSame('hsl(240, 100%, 50%)', ColorService::rgb2hsl('rgb(0, 0, 255)'));
 	}
 
-	public function testConvertRgbToHslReturnsValidFormat(): void
+	public function testRgb2HslReturnsValidFormat(): void
 	{
 		$hsl = ColorService::rgb2hsl('rgb(239, 68, 68)');
 
 		$this->assertMatchesRegularExpression('/^hsl\(\d+, \d+%, \d+%\)$/', $hsl);
 	}
 
-	public function testConvertRgbToHslHueIsInRange(): void
+	public function testRgb2HslHueIsInRange(): void
 	{
 		$colors = [
 			'rgb(255, 0, 0)',
@@ -116,14 +130,14 @@ class ColorServiceTest extends TestCase
 		}
 	}
 
-	public function testConvertRgbToHslThrowsOnInvalidRgb(): void
+	public function testRgb2HslThrowsOnInvalidRgb(): void
 	{
 		$this->expectException(InvalidArgumentException::class);
 
 		ColorService::rgb2hsl('not-a-color');
 	}
 
-	public function testConvertRgbToOklchReturnsExpectedValue(): void
+	public function testRgb2OklchReturnsExpectedValue(): void
 	{
 		$this->assertSame('oklch(0 0 0)', ColorService::rgb2oklch('rgb(0, 0, 0)'));
 
@@ -131,14 +145,14 @@ class ColorServiceTest extends TestCase
 		$this->assertStringStartsWith('oklch(1 ', $oklch);
 	}
 
-	public function testConvertRgbToOklchReturnsValidFormat(): void
+	public function testRgb2OklchReturnsValidFormat(): void
 	{
 		$oklch = ColorService::rgb2oklch('rgb(239, 68, 68)');
 
 		$this->assertMatchesRegularExpression('/^oklch\([0-9.]+ [0-9.]+ [0-9.]+\)$/', $oklch);
 	}
 
-	public function testConvertRgbToOklchLightnessIsInRange(): void
+	public function testRgb2OklchLightnessIsInRange(): void
 	{
 		$colors = [
 			'rgb(0, 0, 0)',
@@ -156,7 +170,7 @@ class ColorServiceTest extends TestCase
 		}
 	}
 
-	public function testConvertRgbToOklchHueIsInRange(): void
+	public function testRgb2OklchHueIsInRange(): void
 	{
 		$colors = [
 			'rgb(255, 0, 0)',
@@ -173,7 +187,7 @@ class ColorServiceTest extends TestCase
 		}
 	}
 
-	public function testConvertRgbToOklchThrowsOnInvalidRgb(): void
+	public function testRgb2OklchThrowsOnInvalidRgb(): void
 	{
 		$this->expectException(InvalidArgumentException::class);
 
