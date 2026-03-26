@@ -51,26 +51,6 @@ ColorService::rgb2hsl('rgb(239, 68, 68)');       // "hsl(0, 91%, 60%)"
 ColorService::rgb2oklch('rgb(239, 68, 68)');     // "oklch(0.6274 0.2007 22.15)"
 ```
 
-Vous pouvez aussi utiliser les énumérations des couleurs, comme ceci :
-
-```php
-use Pyreweb\Chroma\Enum\Color;
-use Pyreweb\Chroma\Service\ColorService;
-
-$color = Color::Red500;
-
-ColorService::hex2rgb($color->getHex());       // "rgb(239, 68, 68)"
-ColorService::hex2rgba($color->getHex());      // "rgba(239, 68, 68, 1)"
-ColorService::hex2rgba($color->getHex(), 0.5); // "rgba(239, 68, 68, 0.5)"
-ColorService::hex2hsl($color->getHex());       // "hsl(0, 91%, 60%)"
-ColorService::hex2oklch($color->getHex());     // "oklch(0.6274 0.2007 22.15)"
-
-ColorService::rgb2rgba($color->getRgb());      // "rgba(239, 68, 68, 1)"
-ColorService::rgb2rgba($color->getRgb(), 0.5); // "rgba(239, 68, 68, 0.5)"
-ColorService::rgb2hsl($color->getRgb());       // "hsl(0, 91%, 60%)"
-ColorService::rgb2oklch($color->getRgb());     // "oklch(0.6274 0.2007 22.15)"
-```
-
 ### Itérer sur toutes les couleurs
 
 ```php
@@ -79,6 +59,39 @@ use Pyreweb\Chroma\Enum\Color;
 foreach (Color::cases() as $color) {
     echo $color->getTitle() . ' : ' . $color->getHex() . PHP_EOL;
 }
+```
+
+### Recherche de couleurs
+
+```php
+use Pyreweb\Chroma\Enum\Color;
+
+Color::from(105);    // Recherche la couleur avec l'id 105, avec erreur si aucune trouvée
+Color::tryFrom(105); // Recherche la couleur avec l'id 105, avec null si aucune trouvée
+
+// Dans une prochaine version, nous ajouterons les méthodes suivantes
+
+Color::fromId(105);
+Color::fromName('Red500');
+Color::fromCode(500);
+Color::fromTitle('Rouge passion');
+Color::fromHex('#ef4444');
+Color::fromRgb('rgb(239, 68, 68)');
+Color::fromRgba('rgba(239, 68, 68, 0.5)');
+Color::fromHsl('hsl(0, 91%, 60%)');
+Color::fromOklch('oklch(0.6274 0.2007 22.15)');
+
+// Et les variantes sans erreurs mais avec des null
+
+Color::tryFromId(105);
+Color::tryFromName('Red500');
+Color::tryFromCode(500);
+Color::tryFromTitle('Rouge passion');
+Color::tryFromHex('#ef4444');
+Color::tryFromRgb('rgb(239, 68, 68)');
+Color::tryFromRgba('rgba(239, 68, 68, 0.5)');
+Color::tryFromHsl('hsl(0, 91%, 60%)');
+Color::tryFromOklch('oklch(0.6274 0.2007 22.15)');
 ```
 
 ## Palettes disponibles

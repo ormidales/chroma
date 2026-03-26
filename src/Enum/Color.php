@@ -1320,7 +1320,7 @@ enum Color: int
 	 */
 	public function getRgba(float $alpha = ColorService::DEFAULT_ALPHA): ?string
 	{
-		return ColorService::rgb2rgba($this->getRgb(), $alpha);
+		return ColorService::hex2rgba($this->getHex(), $alpha);
 	}
 
 	/**
@@ -1330,7 +1330,7 @@ enum Color: int
 	 */
 	public function getHsl(): ?string
 	{
-		return ColorService::rgb2hsl($this->getRgb());
+		return ColorService::hex2hsl($this->getHex());
 	}
 
 	/**
@@ -1340,7 +1340,7 @@ enum Color: int
 	 */
 	public function getOklch(): ?string
 	{
-		return ColorService::rgb2oklch($this->getRgb());
+		return ColorService::hex2oklch($this->getHex());
 	}
 
 	/**
