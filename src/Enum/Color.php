@@ -911,7 +911,7 @@ enum Color: int
 	{
 		return match($this) {
 			self::Black => '#000000',
-			self::White => '#FFFFFF',
+			self::White => '#ffffff',
 
 			self::Red50 => '#fef2f2',
 			self::Red100 => '#fee2e2',
