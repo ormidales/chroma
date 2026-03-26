@@ -1,0 +1,40 @@
+{
+	"name": "pyreweb/chroma",
+	"description": "Bibliothèque PHP d'énumérations et de conversion de couleurs, supportant les formats HEX, RGB, RGBA, HSL et OKLCH.",
+	"type": "library",
+	"license": "MIT",
+	"keywords": ["color", "colour", "couleur", "hex", "rgb", "hsl", "oklch", "enum", "converter"],
+	"authors": [
+		{
+			"name": "Hugo Doueil",
+			"email": "hugo@pyreweb.com",
+			"role": "Developer"
+		},
+		{
+			"name": "Pyréweb",
+			"email": "contact@pyreweb.com",
+			"role": "Team"
+		}
+	],
+	"require": {
+		"php": "^8.1"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^11.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Pyreweb\\Chroma\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Pyreweb\\Chroma\\Tests\\": "tests/"
+		}
+	},
+	"config": {
+		"optimize-autoloader": true,
+		"sort-packages": true
+	},
+	"minimum-stability": "stable"
+}
