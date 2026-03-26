@@ -119,31 +119,31 @@ enum Color: int
 
 	// Sarcelle, de 800 à 899
 
-	case Teal50 = 711;
-	case Teal100 = 712;
-	case Teal200 = 713;
-	case Teal300 = 714;
-	case Teal400 = 715;
-	case Teal500 = 716;
-	case Teal600 = 717;
-	case Teal700 = 718;
-	case Teal800 = 719;
-	case Teal900 = 720;
-	case Teal950 = 721;
+	case Teal50 = 800;
+	case Teal100 = 801;
+	case Teal200 = 802;
+	case Teal300 = 803;
+	case Teal400 = 804;
+	case Teal500 = 805;
+	case Teal600 = 806;
+	case Teal700 = 807;
+	case Teal800 = 808;
+	case Teal900 = 809;
+	case Teal950 = 810;
 
 	// Cyan, de 900 à 999
 
-	case Cyan50 = 722;
-	case Cyan100 = 723;
-	case Cyan200 = 724;
-	case Cyan300 = 725;
-	case Cyan400 = 726;
-	case Cyan500 = 727;
-	case Cyan600 = 728;
-	case Cyan700 = 729;
-	case Cyan800 = 730;
-	case Cyan900 = 731;
-	case Cyan950 = 732;
+	case Cyan50 = 900;
+	case Cyan100 = 901;
+	case Cyan200 = 902;
+	case Cyan300 = 903;
+	case Cyan400 = 904;
+	case Cyan500 = 905;
+	case Cyan600 = 906;
+	case Cyan700 = 907;
+	case Cyan800 = 908;
+	case Cyan900 = 909;
+	case Cyan950 = 910;
 
 	// Ciel, de 1000 à 1099
 
