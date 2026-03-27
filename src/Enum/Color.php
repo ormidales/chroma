@@ -585,6 +585,83 @@ enum Color: int
 	}
 
 	/**
+	 * Trouver une couleur par son code RGB
+	 *
+	 * Lance une ValueError si aucune couleur ne correspond.
+	 *
+	 * @param string $rgb Le code RGB de la couleur (ex. 'rgb(239, 68, 68)')
+	 *
+	 * @return self La couleur correspondante
+	 *
+	 * @throws \InvalidArgumentException Si le format RGB est invalide
+	 * @throws \ValueError Si aucune couleur ne correspond au code RGB donné
+	 */
+	public static function fromRgb(string $rgb): self
+	{
+		if (!preg_match('/^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/', $rgb, $matches)) {
+			throw new \InvalidArgumentException("Format RGB invalide : '{$rgb}'.");
+		}
+
+		$r = (int) $matches[1];
+		$g = (int) $matches[2];
+		$b = (int) $matches[3];
+
+		foreach ([$r, $g, $b] as $component) {
+			if ($component < 0 || $component > 255) {
+				throw new \InvalidArgumentException("Les composantes RGB doivent être comprises entre 0 et 255 : '{$rgb}'.");
+			}
+		}
+
+		$normalized = "rgb({$r}, {$g}, {$b})";
+
+		foreach (self::cases() as $case) {
+			if ($case->getRgb() === $normalized) {
+				return $case;
+			}
+		}
+
+		throw new \ValueError("Aucune couleur trouvée avec le code RGB '{$rgb}'.");
+	}
+
+	/**
+	 * Trouver une couleur par son code RGBA
+	 *
+	 * Le canal alpha est ignoré lors de la recherche : seules les composantes RGB
+	 * sont utilisées pour identifier la couleur correspondante.
+	 * Lance une ValueError si aucune couleur ne correspond.
+	 *
+	 * @param string $rgba Le code RGBA de la couleur (ex. 'rgba(239, 68, 68, 0.5)')
+	 *
+	 * @return self La couleur correspondante
+	 *
+	 * @throws \InvalidArgumentException Si le format RGBA est invalide
+	 * @throws \ValueError Si aucune couleur ne correspond aux composantes RGB extraites
+	 */
+	public static function fromRgba(string $rgba): self
+	{
+		if (!preg_match('/^rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d+(?:\.\d+)?)\s*\)$/', $rgba, $matches)) {
+			throw new \InvalidArgumentException("Format RGBA invalide : '{$rgba}'.");
+		}
+
+		$r = (int) $matches[1];
+		$g = (int) $matches[2];
+		$b = (int) $matches[3];
+		$alpha = (float) $matches[4];
+
+		if ($r < 0 || $r > 255 || $g < 0 || $g > 255 || $b < 0 || $b > 255) {
+			throw new \InvalidArgumentException(
+				"Composantes RGB invalides dans le code RGBA '{$rgba}'. Les valeurs doivent être comprises entre 0 et 255."
+			);
+		}
+
+		if ($alpha < 0.0 || $alpha > 1.0) {
+			throw new \InvalidArgumentException("Valeur alpha invalide (doit être comprise entre 0 et 1) dans '{$rgba}'.");
+		}
+
+		return self::fromRgb("rgb({$r}, {$g}, {$b})");
+	}
+
+	/**
 	 * Obtenir l'identifiant de la couleur
 	 * 
 	 * @return int L'identifiant de la couleur
