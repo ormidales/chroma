@@ -557,6 +557,34 @@ enum Color: int
 	}
 
 	/**
+	 * Trouver une couleur par son code hexadécimal
+	 *
+	 * La comparaison est insensible à la casse (ex. '#EF4444' correspond à '#ef4444').
+	 * Lance une ValueError si aucune couleur ne correspond.
+	 *
+	 * @param string $hex Le code hexadécimal de la couleur (ex. '#ef4444' ou 'ef4444')
+	 *
+	 * @return self La couleur correspondante
+	 *
+	 * @throws \InvalidArgumentException Si le format hexadécimal est invalide
+	 * @throws \ValueError Si aucune couleur ne correspond au code hexadécimal donné
+	 */
+	public static function fromHex(string $hex): self
+	{
+		ColorService::validateHex($hex);
+
+		$hex = '#' . strtolower(ltrim($hex, '#'));
+
+		foreach (self::cases() as $case) {
+			if (strtolower($case->getHex()) === $hex) {
+				return $case;
+			}
+		}
+
+		throw new \ValueError("Aucune couleur trouvée avec le code hexadécimal '{$hex}'.");
+	}
+
+	/**
 	 * Obtenir l'identifiant de la couleur
 	 * 
 	 * @return int L'identifiant de la couleur
