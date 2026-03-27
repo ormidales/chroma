@@ -195,4 +195,276 @@ class ColorTest extends TestCase
 			);
 		}
 	}
+
+	// fromId / tryFromId
+
+	public function testFromIdReturnsCorrectColor(): void
+	{
+		$this->assertSame(Color::Black, Color::fromId(1));
+		$this->assertSame(Color::Red500, Color::fromId(105));
+	}
+
+	public function testFromIdThrowsOnUnknownId(): void
+	{
+		$this->expectException(\ValueError::class);
+		Color::fromId(99999);
+	}
+
+	public function testTryFromIdReturnsColorOnMatch(): void
+	{
+		$this->assertSame(Color::Black, Color::tryFromId(1));
+		$this->assertSame(Color::Red500, Color::tryFromId(105));
+	}
+
+	public function testTryFromIdReturnsNullOnUnknownId(): void
+	{
+		$this->assertNull(Color::tryFromId(99999));
+	}
+
+	// fromName / tryFromName
+
+	public function testFromNameReturnsCorrectColor(): void
+	{
+		$this->assertSame(Color::Black, Color::fromName('Black'));
+		$this->assertSame(Color::Red500, Color::fromName('Red500'));
+	}
+
+	public function testFromNameThrowsOnUnknownName(): void
+	{
+		$this->expectException(\ValueError::class);
+		Color::fromName('UnknownColor');
+	}
+
+	public function testTryFromNameReturnsColorOnMatch(): void
+	{
+		$this->assertSame(Color::Black, Color::tryFromName('Black'));
+		$this->assertSame(Color::Red500, Color::tryFromName('Red500'));
+	}
+
+	public function testTryFromNameReturnsNullOnUnknownName(): void
+	{
+		$this->assertNull(Color::tryFromName('UnknownColor'));
+	}
+
+	// fromCode / tryFromCode
+
+	public function testFromCodeReturnsFirstMatchForAmbiguousCode(): void
+	{
+		$result = Color::fromCode(500);
+		$this->assertSame(500, $result->getCode());
+		$this->assertSame(Color::Red500, $result);
+	}
+
+	public function testFromCodeThrowsOnZeroOrNegative(): void
+	{
+		$this->expectException(\ValueError::class);
+		Color::fromCode(0);
+	}
+
+	public function testFromCodeThrowsOnUnknownCode(): void
+	{
+		$this->expectException(\ValueError::class);
+		Color::fromCode(9999);
+	}
+
+	public function testTryFromCodeReturnsColorOnMatch(): void
+	{
+		$result = Color::tryFromCode(500);
+		$this->assertNotNull($result);
+		$this->assertSame(500, $result->getCode());
+	}
+
+	public function testTryFromCodeReturnsNullOnUnknownCode(): void
+	{
+		$this->assertNull(Color::tryFromCode(9999));
+	}
+
+	public function testTryFromCodeReturnsNullOnInvalidCode(): void
+	{
+		$this->assertNull(Color::tryFromCode(0));
+	}
+
+	// fromTitle / tryFromTitle
+
+	public function testFromTitleReturnsCorrectColor(): void
+	{
+		$this->assertSame(Color::Black, Color::fromTitle('Noir absolu'));
+		$this->assertSame(Color::Red500, Color::fromTitle('Rouge passion'));
+	}
+
+	public function testFromTitleThrowsOnUnknownTitle(): void
+	{
+		$this->expectException(\ValueError::class);
+		Color::fromTitle('Couleur inexistante');
+	}
+
+	public function testTryFromTitleReturnsColorOnMatch(): void
+	{
+		$this->assertSame(Color::Black, Color::tryFromTitle('Noir absolu'));
+		$this->assertSame(Color::Red500, Color::tryFromTitle('Rouge passion'));
+	}
+
+	public function testTryFromTitleReturnsNullOnUnknownTitle(): void
+	{
+		$this->assertNull(Color::tryFromTitle('Couleur inexistante'));
+	}
+
+	// fromHex / tryFromHex
+
+	public function testFromHexReturnsCorrectColor(): void
+	{
+		$this->assertSame(Color::Red500, Color::fromHex('#ef4444'));
+		$this->assertSame(Color::Black, Color::fromHex('#000000'));
+	}
+
+	public function testFromHexIsCaseInsensitive(): void
+	{
+		$this->assertSame(Color::Red500, Color::fromHex('#EF4444'));
+		$this->assertSame(Color::Red500, Color::fromHex('#Ef4444'));
+	}
+
+	public function testFromHexThrowsOnUnknownHex(): void
+	{
+		$this->expectException(\ValueError::class);
+		Color::fromHex('#123456');
+	}
+
+	public function testFromHexThrowsOnInvalidFormat(): void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+		Color::fromHex('invalid');
+	}
+
+	public function testTryFromHexReturnsColorOnMatch(): void
+	{
+		$this->assertSame(Color::Red500, Color::tryFromHex('#ef4444'));
+		$this->assertSame(Color::Red500, Color::tryFromHex('#EF4444'));
+	}
+
+	public function testTryFromHexReturnsNullOnUnknownHex(): void
+	{
+		$this->assertNull(Color::tryFromHex('#123456'));
+	}
+
+	// fromRgb / tryFromRgb
+
+	public function testFromRgbReturnsCorrectColor(): void
+	{
+		$this->assertSame(Color::Red500, Color::fromRgb('rgb(239, 68, 68)'));
+		$this->assertSame(Color::Black, Color::fromRgb('rgb(0, 0, 0)'));
+	}
+
+	public function testFromRgbThrowsOnUnknownRgb(): void
+	{
+		$this->expectException(\ValueError::class);
+		Color::fromRgb('rgb(1, 2, 3)');
+	}
+
+	public function testFromRgbThrowsOnInvalidFormat(): void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+		Color::fromRgb('not-rgb');
+	}
+
+	public function testTryFromRgbReturnsColorOnMatch(): void
+	{
+		$this->assertSame(Color::Red500, Color::tryFromRgb('rgb(239, 68, 68)'));
+		$this->assertSame(Color::Black, Color::tryFromRgb('rgb(0, 0, 0)'));
+	}
+
+	public function testTryFromRgbReturnsNullOnUnknownRgb(): void
+	{
+		$this->assertNull(Color::tryFromRgb('rgb(1, 2, 3)'));
+	}
+
+	// fromRgba / tryFromRgba
+
+	public function testFromRgbaReturnsCorrectColorIgnoringAlpha(): void
+	{
+		$this->assertSame(Color::Red500, Color::fromRgba('rgba(239, 68, 68, 1)'));
+		$this->assertSame(Color::Red500, Color::fromRgba('rgba(239, 68, 68, 0.5)'));
+		$this->assertSame(Color::Red500, Color::fromRgba('rgba(239, 68, 68, 0)'));
+	}
+
+	public function testFromRgbaThrowsOnUnknownRgba(): void
+	{
+		$this->expectException(\ValueError::class);
+		Color::fromRgba('rgba(1, 2, 3, 0.5)');
+	}
+
+	public function testFromRgbaThrowsOnInvalidFormat(): void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+		Color::fromRgba('invalid');
+	}
+
+	public function testTryFromRgbaReturnsColorOnMatch(): void
+	{
+		$this->assertSame(Color::Red500, Color::tryFromRgba('rgba(239, 68, 68, 0.5)'));
+	}
+
+	public function testTryFromRgbaReturnsNullOnUnknownRgba(): void
+	{
+		$this->assertNull(Color::tryFromRgba('rgba(1, 2, 3, 0.5)'));
+	}
+
+	// fromHsl / tryFromHsl
+
+	public function testFromHslReturnsCorrectColor(): void
+	{
+		$this->assertSame(Color::Black, Color::fromHsl('hsl(0, 0%, 0%)'));
+		$this->assertSame(Color::White, Color::fromHsl('hsl(0, 0%, 100%)'));
+	}
+
+	public function testFromHslThrowsOnUnknownHsl(): void
+	{
+		$this->expectException(\ValueError::class);
+		Color::fromHsl('hsl(123, 45%, 67%)');
+	}
+
+	public function testFromHslThrowsOnInvalidFormat(): void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+		Color::fromHsl('invalid');
+	}
+
+	public function testTryFromHslReturnsColorOnMatch(): void
+	{
+		$this->assertSame(Color::Black, Color::tryFromHsl('hsl(0, 0%, 0%)'));
+		$this->assertSame(Color::White, Color::tryFromHsl('hsl(0, 0%, 100%)'));
+	}
+
+	public function testTryFromHslReturnsNullOnUnknownHsl(): void
+	{
+		$this->assertNull(Color::tryFromHsl('hsl(123, 45%, 67%)'));
+	}
+
+	// fromOklch / tryFromOklch
+
+	public function testFromOklchReturnsCorrectColor(): void
+	{
+		$this->assertSame(Color::Black, Color::fromOklch('oklch(0 0 0)'));
+	}
+
+	public function testFromOklchThrowsOnUnknownOklch(): void
+	{
+		$this->expectException(\ValueError::class);
+		Color::fromOklch('oklch(0.5 0.1 180)');
+	}
+
+	public function testFromOklchThrowsOnInvalidFormat(): void
+	{
+		$this->expectException(\InvalidArgumentException::class);
+		Color::fromOklch('invalid');
+	}
+
+	public function testTryFromOklchReturnsColorOnMatch(): void
+	{
+		$this->assertSame(Color::Black, Color::tryFromOklch('oklch(0 0 0)'));
+	}
+
+	public function testTryFromOklchReturnsNullOnUnknownOklch(): void
+	{
+		$this->assertNull(Color::tryFromOklch('oklch(0.5 0.1 180)'));
+	}
 }
