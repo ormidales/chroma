@@ -742,6 +742,176 @@ enum Color: int
 	}
 
 	/**
+	 * Trouver une couleur par son identifiant, ou retourner null si introuvable
+	 *
+	 * Équivalent à Color::tryFrom($id). Retourne null si aucune couleur ne correspond.
+	 *
+	 * @param int $id L'identifiant de la couleur
+	 *
+	 * @return self|null La couleur correspondante, ou null si aucune correspondance
+	 */
+	public static function tryFromId(int $id): ?self
+	{
+		return self::tryFrom($id);
+	}
+
+	/**
+	 * Trouver une couleur par son nom de case, ou retourner null si introuvable
+	 *
+	 * Retourne null si aucune couleur ne correspond.
+	 *
+	 * @param string $name Le nom de la case de l'énumération (ex. 'Red500')
+	 *
+	 * @return self|null La couleur correspondante, ou null si aucune correspondance
+	 */
+	public static function tryFromName(string $name): ?self
+	{
+		foreach (self::cases() as $case) {
+			if ($case->name === $name) {
+				return $case;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Trouver une couleur par son code numérique, ou retourner null si introuvable
+	 *
+	 * Retourne null si aucune couleur ne correspond ou si le code est invalide.
+	 *
+	 * @param int $code Le code numérique de la couleur (ex. 500)
+	 *
+	 * @return self|null La première couleur correspondante, ou null si aucune correspondance
+	 */
+	public static function tryFromCode(int $code): ?self
+	{
+		try {
+			return self::fromCode($code);
+		} catch (\ValueError) {
+			return null;
+		}
+	}
+
+	/**
+	 * Trouver une couleur par son titre, ou retourner null si introuvable
+	 *
+	 * Retourne null si aucune couleur ne correspond.
+	 *
+	 * @param string $title Le titre de la couleur (ex. 'Rouge passion')
+	 *
+	 * @return self|null La couleur correspondante, ou null si aucune correspondance
+	 */
+	public static function tryFromTitle(string $title): ?self
+	{
+		try {
+			return self::fromTitle($title);
+		} catch (\ValueError) {
+			return null;
+		}
+	}
+
+	/**
+	 * Trouver une couleur par son code hexadécimal, ou retourner null si introuvable
+	 *
+	 * Retourne null si aucune couleur ne correspond.
+	 *
+	 * @param string $hex Le code hexadécimal de la couleur (ex. '#ef4444' ou 'ef4444')
+	 *
+	 * @return self|null La couleur correspondante, ou null si aucune correspondance
+	 *
+	 * @throws \InvalidArgumentException Si le format hexadécimal est invalide
+	 */
+	public static function tryFromHex(string $hex): ?self
+	{
+		try {
+			return self::fromHex($hex);
+		} catch (\ValueError) {
+			return null;
+		}
+	}
+
+	/**
+	 * Trouver une couleur par son code RGB, ou retourner null si introuvable
+	 *
+	 * Retourne null si aucune couleur ne correspond.
+	 *
+	 * @param string $rgb Le code RGB de la couleur (ex. 'rgb(239, 68, 68)')
+	 *
+	 * @return self|null La couleur correspondante, ou null si aucune correspondance
+	 *
+	 * @throws \InvalidArgumentException Si le format RGB est invalide
+	 */
+	public static function tryFromRgb(string $rgb): ?self
+	{
+		try {
+			return self::fromRgb($rgb);
+		} catch (\ValueError) {
+			return null;
+		}
+	}
+
+	/**
+	 * Trouver une couleur par son code RGBA, ou retourner null si introuvable
+	 *
+	 * Le canal alpha est ignoré lors de la recherche. Retourne null si aucune couleur ne correspond.
+	 *
+	 * @param string $rgba Le code RGBA de la couleur (ex. 'rgba(239, 68, 68, 0.5)')
+	 *
+	 * @return self|null La couleur correspondante, ou null si aucune correspondance
+	 *
+	 * @throws \InvalidArgumentException Si le format RGBA est invalide
+	 */
+	public static function tryFromRgba(string $rgba): ?self
+	{
+		try {
+			return self::fromRgba($rgba);
+		} catch (\ValueError) {
+			return null;
+		}
+	}
+
+	/**
+	 * Trouver une couleur par son code HSL, ou retourner null si introuvable
+	 *
+	 * Retourne null si aucune couleur ne correspond.
+	 *
+	 * @param string $hsl Le code HSL de la couleur (ex. 'hsl(0, 91%, 60%)')
+	 *
+	 * @return self|null La couleur correspondante, ou null si aucune correspondance
+	 *
+	 * @throws \InvalidArgumentException Si le format HSL est invalide ou si les composantes sont hors limites
+	 */
+	public static function tryFromHsl(string $hsl): ?self
+	{
+		try {
+			return self::fromHsl($hsl);
+		} catch (\ValueError) {
+			return null;
+		}
+	}
+
+	/**
+	 * Trouver une couleur par son code OKLCH, ou retourner null si introuvable
+	 *
+	 * Retourne null si aucune couleur ne correspond.
+	 *
+	 * @param string $oklch Le code OKLCH de la couleur (ex. 'oklch(0.6274 0.2007 22.15)')
+	 *
+	 * @return self|null La couleur correspondante, ou null si aucune correspondance
+	 *
+	 * @throws \InvalidArgumentException Si le format OKLCH est invalide
+	 */
+	public static function tryFromOklch(string $oklch): ?self
+	{
+		try {
+			return self::fromOklch($oklch);
+		} catch (\ValueError) {
+			return null;
+		}
+	}
+
+	/**
 	 * Obtenir l'identifiant de la couleur
 	 * 
 	 * @return int L'identifiant de la couleur
