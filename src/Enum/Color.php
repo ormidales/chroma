@@ -752,11 +752,7 @@ enum Color: int
 	 */
 	public static function tryFromId(int $id): ?self
 	{
-		try {
-			return self::fromId($id);
-		} catch (\ValueError) {
-			return null;
-		}
+		return self::tryFrom($id);
 	}
 
 	/**
@@ -770,11 +766,13 @@ enum Color: int
 	 */
 	public static function tryFromName(string $name): ?self
 	{
-		try {
-			return self::fromName($name);
-		} catch (\ValueError) {
-			return null;
+		foreach (self::cases() as $case) {
+			if ($case->name === $name) {
+				return $case;
+			}
 		}
+
+		return null;
 	}
 
 	/**
