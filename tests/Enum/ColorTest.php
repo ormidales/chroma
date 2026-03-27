@@ -322,6 +322,9 @@ class ColorTest extends TestCase
 	{
 		$this->assertSame(Color::Red500, Color::fromHex('#ef4444'));
 		$this->assertSame(Color::Black, Color::fromHex('#000000'));
+		// Also support hex values without a leading '#'
+		$this->assertSame(Color::Red500, Color::fromHex('ef4444'));
+		$this->assertSame(Color::Black, Color::fromHex('000000'));
 	}
 
 	public function testFromHexIsCaseInsensitive(): void
