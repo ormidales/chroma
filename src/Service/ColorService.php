@@ -218,7 +218,7 @@ class ColorService
 		}
 	}
 
-	public static function validateRgb(string $rgb): void
+	public static function validateRgb(string $rgb): array
 	{
 		if (!preg_match('/^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/', $rgb, $matches)) {
 			throw new \InvalidArgumentException('La couleur RGB doit être au format rgb(R, G, B) avec R, G et B entre 0 et 255.');
@@ -227,6 +227,8 @@ class ColorService
 		if ((int)$matches[1] > 255 || (int)$matches[2] > 255 || (int)$matches[3] > 255) {
 			throw new \InvalidArgumentException('La couleur RGB doit être au format rgb(R, G, B) avec R, G et B entre 0 et 255.');
 		}
+
+		return $matches;
 	}
 
 	public static function validateRgba(string $rgba): void
@@ -300,9 +302,7 @@ class ColorService
 
 	private static function parseRgb(string $rgb): array
 	{
-		if (!preg_match('/^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/', $rgb, $matches)) {
-			throw new \InvalidArgumentException('La couleur RGB doit être au format rgb(R, G, B) avec R, G et B entre 0 et 255.');
-		}
+		$matches = self::validateRgb($rgb);
 
 		$r = (int) $matches[1];
 		$g = (int) $matches[2];
