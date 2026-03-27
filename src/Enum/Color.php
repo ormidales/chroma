@@ -766,13 +766,11 @@ enum Color: int
 	 */
 	public static function tryFromName(string $name): ?self
 	{
-		foreach (self::cases() as $case) {
-			if ($case->name === $name) {
-				return $case;
-			}
+		try {
+			return self::fromName($name);
+		} catch (\ValueError) {
+			return null;
 		}
-
-		return null;
 	}
 
 	/**
