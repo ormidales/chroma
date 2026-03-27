@@ -250,6 +250,27 @@ class ColorService
 		}
 	}
 
+	public static function validateHsl(string $hsl): void
+	{
+		if (!preg_match('/^hsl\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*\)$/', $hsl, $matches)) {
+			throw new \InvalidArgumentException(
+				'La couleur HSL doit être au format hsl(H, S%, L%) avec H entre 0 et 360, S et L entre 0 et 100.'
+			);
+		}
+
+		if ((int)$matches[1] < 0 || (int)$matches[1] > 360) {
+			throw new \InvalidArgumentException(
+				'La couleur HSL doit être au format hsl(H, S%, L%) avec H entre 0 et 360, S et L entre 0 et 100.'
+			);
+		}
+
+		if ((int)$matches[2] < 0 || (int)$matches[2] > 100 || (int)$matches[3] < 0 || (int)$matches[3] > 100) {
+			throw new \InvalidArgumentException(
+				'La couleur HSL doit être au format hsl(H, S%, L%) avec H entre 0 et 360, S et L entre 0 et 100.'
+			);
+		}
+	}
+
 	private static function parseRgb(string $rgb): array
 	{
 		if (!preg_match('/^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/', $rgb, $matches)) {
