@@ -271,6 +271,33 @@ class ColorService
 		}
 	}
 
+	public static function validateOklch(string $oklch): void
+	{
+		if (!preg_match('/^oklch\(\s*(\d*\.?\d+)\s+(\d*\.?\d+)\s+(\d*\.?\d+)\s*\)$/', $oklch, $matches)) {
+			throw new \InvalidArgumentException(
+				'La couleur OKLCH doit être au format oklch(L C H) avec L entre 0 et 1, C positif et H entre 0 et 360.'
+			);
+		}
+
+		if ((float)$matches[1] < 0.0 || (float)$matches[1] > 1.0) {
+			throw new \InvalidArgumentException(
+				'La couleur OKLCH doit être au format oklch(L C H) avec L entre 0 et 1, C positif et H entre 0 et 360.'
+			);
+		}
+
+		if ((float)$matches[2] < 0.0) {
+			throw new \InvalidArgumentException(
+				'La couleur OKLCH doit être au format oklch(L C H) avec L entre 0 et 1, C positif et H entre 0 et 360.'
+			);
+		}
+
+		if ((float)$matches[3] < 0.0 || (float)$matches[3] > 360.0) {
+			throw new \InvalidArgumentException(
+				'La couleur OKLCH doit être au format oklch(L C H) avec L entre 0 et 1, C positif et H entre 0 et 360.'
+			);
+		}
+	}
+
 	private static function parseRgb(string $rgb): array
 	{
 		if (!preg_match('/^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/', $rgb, $matches)) {
