@@ -468,6 +468,448 @@ enum Color: int
 	case Lagoon950 = 3210;
 
 	/**
+	 * Trouver une couleur par son identifiant
+	 *
+	 * Équivalent à Color::from($id). Lance une ValueError si aucune couleur ne correspond.
+	 *
+	 * @param int $id L'identifiant de la couleur
+	 *
+	 * @return self La couleur correspondante
+	 *
+	 * @throws \ValueError Si aucune couleur ne correspond à l'identifiant donné
+	 */
+	public static function fromId(int $id): self
+	{
+		return self::from($id);
+	}
+
+	/**
+	 * Trouver une couleur par son nom de case
+	 *
+	 * Lance une ValueError si aucune couleur ne correspond.
+	 *
+	 * @param string $name Le nom de la case de l'énumération (ex. 'Red500')
+	 *
+	 * @return self La couleur correspondante
+	 *
+	 * @throws \ValueError Si aucune couleur ne correspond au nom donné
+	 */
+	public static function fromName(string $name): self
+	{
+		foreach (self::cases() as $case) {
+			if ($case->getName() === $name) {
+				return $case;
+			}
+		}
+		
+		throw new \ValueError("Aucune couleur trouvée avec le nom '{$name}'.");
+	}
+
+	/**
+	 * Trouver une couleur par son code numérique
+	 *
+	 * Retourne la première couleur correspondante, car plusieurs palettes peuvent
+	 * partager le même code numérique (ex. 500 pour Red500, Orange500, etc.).
+	 * Lance une ValueError si le code est inférieur ou égal à zéro, ou si aucune couleur ne correspond.
+	 *
+	 * @param int $code Le code numérique de la couleur (ex. 500), doit être un entier positif
+	 *
+	 * @return self La première couleur correspondante
+	 *
+	 * @throws \ValueError Si le code est inférieur ou égal à zéro, ou si aucune couleur ne correspond au code donné
+	 */
+	public static function fromCode(int $code): self
+	{
+		if ($code <= 0) {
+			throw new \ValueError("Le code de couleur doit être un entier positif. Valeur fournie : '{$code}'.");
+		}
+
+		foreach (self::cases() as $case) {
+			$caseCode = $case->getCode();
+			if ($caseCode > 0 && $caseCode === $code) {
+				return $case;
+			}
+		}
+		
+		throw new \ValueError("Aucune couleur trouvée avec le code '{$code}'.");
+	}
+
+	/**
+	 * Trouver une couleur par son titre
+	 *
+	 * Lance une ValueError si aucune couleur ne correspond.
+	 *
+	 * @param string $title Le titre de la couleur (ex. 'Rouge passion')
+	 *
+	 * @return self La couleur correspondante
+	 *
+	 * @throws \ValueError Si aucune couleur ne correspond au titre donné
+	 */
+	public static function fromTitle(string $title): self
+	{
+		foreach (self::cases() as $case) {
+			if ($case->getTitle() === $title) {
+				return $case;
+			}
+		}
+		
+		throw new \ValueError("Aucune couleur trouvée avec le titre '{$title}'.");
+	}
+
+	/**
+	 * Trouver une couleur par son code hexadécimal
+	 *
+	 * La comparaison est insensible à la casse (ex. '#EF4444' correspond à '#ef4444').
+	 * Lance une ValueError si aucune couleur ne correspond.
+	 *
+	 * @param string $hex Le code hexadécimal de la couleur (ex. '#ef4444' ou 'ef4444')
+	 *
+	 * @return self La couleur correspondante
+	 *
+	 * @throws \InvalidArgumentException Si le format hexadécimal est invalide
+	 * @throws \ValueError Si aucune couleur ne correspond au code hexadécimal donné
+	 */
+	public static function fromHex(string $hex): self
+	{
+		ColorService::validateHex($hex);
+
+		$hex = '#' . strtolower(ltrim($hex, '#'));
+
+		foreach (self::cases() as $case) {
+			if ($case->getHex() === $hex) {
+				return $case;
+			}
+		}
+
+		throw new \ValueError("Aucune couleur trouvée avec le code hexadécimal '{$hex}'.");
+	}
+
+	/**
+	 * Trouver une couleur par son code RGB
+	 *
+	 * Lance une ValueError si aucune couleur ne correspond.
+	 *
+	 * @param string $rgb Le code RGB de la couleur (ex. 'rgb(239, 68, 68)')
+	 *
+	 * @return self La couleur correspondante
+	 *
+	 * @throws \InvalidArgumentException Si le format RGB est invalide
+	 * @throws \ValueError Si aucune couleur ne correspond au code RGB donné
+	 */
+	public static function fromRgb(string $rgb): self
+	{
+		if (!preg_match('/^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/', $rgb, $matches)) {
+			throw new \InvalidArgumentException("Format RGB invalide : '{$rgb}'.");
+		}
+
+		$r = (int) $matches[1];
+		$g = (int) $matches[2];
+		$b = (int) $matches[3];
+
+		foreach ([$r, $g, $b] as $component) {
+			if ($component < 0 || $component > 255) {
+				throw new \InvalidArgumentException("Les composantes RGB doivent être comprises entre 0 et 255 : '{$rgb}'.");
+			}
+		}
+
+		$normalized = "rgb({$r}, {$g}, {$b})";
+
+		foreach (self::cases() as $case) {
+			if ($case->getRgb() === $normalized) {
+				return $case;
+			}
+		}
+
+		throw new \ValueError("Aucune couleur trouvée avec le code RGB '{$rgb}'.");
+	}
+
+	/**
+	 * Trouver une couleur par son code RGBA
+	 *
+	 * Le canal alpha est ignoré lors de la recherche : seules les composantes RGB
+	 * sont utilisées pour identifier la couleur correspondante.
+	 * Lance une ValueError si aucune couleur ne correspond.
+	 *
+	 * @param string $rgba Le code RGBA de la couleur (ex. 'rgba(239, 68, 68, 0.5)')
+	 *
+	 * @return self La couleur correspondante
+	 *
+	 * @throws \InvalidArgumentException Si le format RGBA est invalide
+	 * @throws \ValueError Si aucune couleur ne correspond aux composantes RGB extraites
+	 */
+	public static function fromRgba(string $rgba): self
+	{
+		if (!preg_match('/^rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d+(?:\.\d+)?)\s*\)$/', $rgba, $matches)) {
+			throw new \InvalidArgumentException("Format RGBA invalide : '{$rgba}'.");
+		}
+
+		$r = (int) $matches[1];
+		$g = (int) $matches[2];
+		$b = (int) $matches[3];
+		$alpha = (float) $matches[4];
+
+		if ($r < 0 || $r > 255 || $g < 0 || $g > 255 || $b < 0 || $b > 255) {
+			throw new \InvalidArgumentException(
+				"Composantes RGB invalides dans le code RGBA '{$rgba}'. Les valeurs doivent être comprises entre 0 et 255."
+			);
+		}
+
+		if ($alpha < 0.0 || $alpha > 1.0) {
+			throw new \InvalidArgumentException("Valeur alpha invalide (doit être comprise entre 0 et 1) dans '{$rgba}'.");
+		}
+
+		return self::fromRgb("rgb({$r}, {$g}, {$b})");
+	}
+
+	/**
+	 * Trouver une couleur par son code HSL
+	 *
+	 * La valeur fournie doit correspondre au format produit par
+	 * {@see ColorService::rgb2hsl()} (ex. 'hsl(0, 91%, 60%)') : les composantes
+	 * H (0–360), S (0–100) et L (0–100) sont des entiers sans décimales.
+	 * La chaîne est normalisée avant comparaison, ce qui tolère des espaces
+	 * différents autour des virgules.
+	 * Lance une ValueError si aucune couleur ne correspond.
+	 *
+	 * @param string $hsl Le code HSL de la couleur (ex. 'hsl(0, 91%, 60%)')
+	 *
+	 * @return self La couleur correspondante
+	 *
+	 * @throws \InvalidArgumentException Si le format HSL est invalide ou si les composantes sont hors limites
+	 * @throws \ValueError Si aucune couleur ne correspond au code HSL donné
+	 */
+	public static function fromHsl(string $hsl): self
+	{
+		if (!preg_match('/^hsl\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*\)$/', $hsl, $matches)) {
+			throw new \InvalidArgumentException("Format HSL invalide : '{$hsl}'.");
+		}
+
+		$h = (int) $matches[1];
+		$s = (int) $matches[2];
+		$l = (int) $matches[3];
+
+		if ($h > 360) {
+			throw new \InvalidArgumentException("La teinte (H) doit être comprise entre 0 et 360 dans '{$hsl}'.");
+		}
+
+		if ($s > 100) {
+			throw new \InvalidArgumentException("La saturation (S) doit être comprise entre 0 et 100 dans '{$hsl}'.");
+		}
+
+		if ($l > 100) {
+			throw new \InvalidArgumentException("La luminosité (L) doit être comprise entre 0 et 100 dans '{$hsl}'.");
+		}
+
+		$normalized = "hsl({$h}, {$s}%, {$l}%)";
+
+		foreach (self::cases() as $case) {
+			if ($case->getHsl() === $normalized) {
+				return $case;
+			}
+		}
+
+		throw new \ValueError("Aucune couleur trouvée avec le code HSL '{$hsl}'.");
+	}
+
+	/**
+	 * Trouver une couleur par son code OKLCH
+	 *
+	 * La valeur fournie doit correspondre exactement au format produit par
+	 * {@see ColorService::rgb2oklch()} (ex. 'oklch(0.6274 0.2007 22.15)').
+	 * Lance une InvalidArgumentException si le format est invalide,
+	 * ou une ValueError si aucune couleur ne correspond.
+	 *
+	 * @param string $oklch Le code OKLCH de la couleur (ex. 'oklch(0.6274 0.2007 22.15)')
+	 *
+	 * @return self La couleur correspondante
+	 *
+	 * @throws \InvalidArgumentException Si le format OKLCH est invalide
+	 * @throws \ValueError Si aucune couleur ne correspond au code OKLCH donné
+	 */
+	public static function fromOklch(string $oklch): self
+	{
+		if (!preg_match('/^oklch\(\d+(?:\.\d+)? \d+(?:\.\d+)? \d+(?:\.\d+)?\)$/', $oklch)) {
+			throw new \InvalidArgumentException("Format OKLCH invalide : '{$oklch}'.");
+		}
+
+		foreach (self::cases() as $case) {
+			if ($case->getOklch() === $oklch) {
+				return $case;
+			}
+		}
+
+		throw new \ValueError("Aucune couleur trouvée avec le code OKLCH '{$oklch}'.");
+	}
+
+	/**
+	 * Trouver une couleur par son identifiant, ou retourner null si introuvable
+	 *
+	 * Équivalent à Color::tryFrom($id). Retourne null si aucune couleur ne correspond.
+	 *
+	 * @param int $id L'identifiant de la couleur
+	 *
+	 * @return self|null La couleur correspondante, ou null si aucune correspondance
+	 */
+	public static function tryFromId(int $id): ?self
+	{
+		return self::tryFrom($id);
+	}
+
+	/**
+	 * Trouver une couleur par son nom de case, ou retourner null si introuvable
+	 *
+	 * Retourne null si aucune couleur ne correspond.
+	 *
+	 * @param string $name Le nom de la case de l'énumération (ex. 'Red500')
+	 *
+	 * @return self|null La couleur correspondante, ou null si aucune correspondance
+	 */
+	public static function tryFromName(string $name): ?self
+	{
+		try {
+			return self::fromName($name);
+		} catch (\ValueError) {
+			return null;
+		}
+	}
+
+	/**
+	 * Trouver une couleur par son code numérique, ou retourner null si introuvable
+	 *
+	 * Retourne null si aucune couleur ne correspond ou si le code est invalide.
+	 *
+	 * @param int $code Le code numérique de la couleur (ex. 500)
+	 *
+	 * @return self|null La première couleur correspondante, ou null si aucune correspondance
+	 */
+	public static function tryFromCode(int $code): ?self
+	{
+		try {
+			return self::fromCode($code);
+		} catch (\ValueError) {
+			return null;
+		}
+	}
+
+	/**
+	 * Trouver une couleur par son titre, ou retourner null si introuvable
+	 *
+	 * Retourne null si aucune couleur ne correspond.
+	 *
+	 * @param string $title Le titre de la couleur (ex. 'Rouge passion')
+	 *
+	 * @return self|null La couleur correspondante, ou null si aucune correspondance
+	 */
+	public static function tryFromTitle(string $title): ?self
+	{
+		try {
+			return self::fromTitle($title);
+		} catch (\ValueError) {
+			return null;
+		}
+	}
+
+	/**
+	 * Trouver une couleur par son code hexadécimal, ou retourner null si introuvable
+	 *
+	 * Retourne null si aucune couleur ne correspond.
+	 *
+	 * @param string $hex Le code hexadécimal de la couleur (ex. '#ef4444' ou 'ef4444')
+	 *
+	 * @return self|null La couleur correspondante, ou null si aucune correspondance
+	 *
+	 * @throws \InvalidArgumentException Si le format hexadécimal est invalide
+	 */
+	public static function tryFromHex(string $hex): ?self
+	{
+		try {
+			return self::fromHex($hex);
+		} catch (\ValueError) {
+			return null;
+		}
+	}
+
+	/**
+	 * Trouver une couleur par son code RGB, ou retourner null si introuvable
+	 *
+	 * Retourne null si aucune couleur ne correspond.
+	 *
+	 * @param string $rgb Le code RGB de la couleur (ex. 'rgb(239, 68, 68)')
+	 *
+	 * @return self|null La couleur correspondante, ou null si aucune correspondance
+	 *
+	 * @throws \InvalidArgumentException Si le format RGB est invalide
+	 */
+	public static function tryFromRgb(string $rgb): ?self
+	{
+		try {
+			return self::fromRgb($rgb);
+		} catch (\ValueError) {
+			return null;
+		}
+	}
+
+	/**
+	 * Trouver une couleur par son code RGBA, ou retourner null si introuvable
+	 *
+	 * Le canal alpha est ignoré lors de la recherche. Retourne null si aucune couleur ne correspond.
+	 *
+	 * @param string $rgba Le code RGBA de la couleur (ex. 'rgba(239, 68, 68, 0.5)')
+	 *
+	 * @return self|null La couleur correspondante, ou null si aucune correspondance
+	 *
+	 * @throws \InvalidArgumentException Si le format RGBA est invalide
+	 */
+	public static function tryFromRgba(string $rgba): ?self
+	{
+		try {
+			return self::fromRgba($rgba);
+		} catch (\ValueError) {
+			return null;
+		}
+	}
+
+	/**
+	 * Trouver une couleur par son code HSL, ou retourner null si introuvable
+	 *
+	 * Retourne null si aucune couleur ne correspond.
+	 *
+	 * @param string $hsl Le code HSL de la couleur (ex. 'hsl(0, 91%, 60%)')
+	 *
+	 * @return self|null La couleur correspondante, ou null si aucune correspondance
+	 *
+	 * @throws \InvalidArgumentException Si le format HSL est invalide ou si les composantes sont hors limites
+	 */
+	public static function tryFromHsl(string $hsl): ?self
+	{
+		try {
+			return self::fromHsl($hsl);
+		} catch (\ValueError) {
+			return null;
+		}
+	}
+
+	/**
+	 * Trouver une couleur par son code OKLCH, ou retourner null si introuvable
+	 *
+	 * Retourne null si aucune couleur ne correspond.
+	 *
+	 * @param string $oklch Le code OKLCH de la couleur (ex. 'oklch(0.6274 0.2007 22.15)')
+	 *
+	 * @return self|null La couleur correspondante, ou null si aucune correspondance
+	 *
+	 * @throws \InvalidArgumentException Si le format OKLCH est invalide
+	 */
+	public static function tryFromOklch(string $oklch): ?self
+	{
+		try {
+			return self::fromOklch($oklch);
+		} catch (\ValueError) {
+			return null;
+		}
+	}
+
+	/**
 	 * Obtenir l'identifiant de la couleur
 	 * 
 	 * @return int L'identifiant de la couleur
