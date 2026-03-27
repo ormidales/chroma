@@ -229,6 +229,27 @@ class ColorService
 		}
 	}
 
+	public static function validateRgba(string $rgba): void
+	{
+		if (!preg_match('/^rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(0|1|0?\.\d+)\s*\)$/', $rgba, $matches)) {
+			throw new \InvalidArgumentException(
+				'La couleur RGBA doit être au format rgba(R, G, B, A) avec R, G et B entre 0 et 255 et A entre 0 et 1.'
+			);
+		}
+
+		if ((int)$matches[1] > 255 || (int)$matches[2] > 255 || (int)$matches[3] > 255) {
+			throw new \InvalidArgumentException(
+				'La couleur RGBA doit être au format rgba(R, G, B, A) avec R, G et B entre 0 et 255 et A entre 0 et 1.'
+			);
+		}
+
+		if ((float)$matches[4] < 0.0 || (float)$matches[4] > 1.0) {
+			throw new \InvalidArgumentException(
+				'La couleur RGBA doit être au format rgba(R, G, B, A) avec R, G et B entre 0 et 255 et A entre 0 et 1.'
+			);
+		}
+	}
+
 	private static function parseRgb(string $rgb): array
 	{
 		if (!preg_match('/^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/', $rgb, $matches)) {
