@@ -598,10 +598,21 @@ enum Color: int
 	 */
 	public static function fromRgb(string $rgb): self
 	{
-		ColorService::validateRgb($rgb);
+		if (!preg_match('/^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/', $rgb, $matches)) {
+			throw new \InvalidArgumentException("Format RGB invalide : '{$rgb}'.");
+		}
 
-		preg_match('/^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/', $rgb, $matches);
-		$normalized = "rgb({$matches[1]}, {$matches[2]}, {$matches[3]})";
+		$r = (int) $matches[1];
+		$g = (int) $matches[2];
+		$b = (int) $matches[3];
+
+		foreach ([$r, $g, $b] as $component) {
+			if ($component < 0 || $component > 255) {
+				throw new \InvalidArgumentException("Les composantes RGB doivent être comprises entre 0 et 255 : '{$rgb}'.");
+			}
+		}
+
+		$normalized = "rgb({$r}, {$g}, {$b})";
 
 		foreach (self::cases() as $case) {
 			if ($case->getRgb() === $normalized) {
@@ -628,11 +639,26 @@ enum Color: int
 	 */
 	public static function fromRgba(string $rgba): self
 	{
-		if (!preg_match('/^rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*\d+(?:\.\d+)?\s*\)$/', $rgba, $matches)) {
+		if (!preg_match('/^rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d+(?:\.\d+)?)\s*\)$/', $rgba, $matches)) {
 			throw new \InvalidArgumentException("Format RGBA invalide : '{$rgba}'.");
 		}
 
-		return self::fromRgb("rgb({$matches[1]}, {$matches[2]}, {$matches[3]})");
+		$r = (int) $matches[1];
+		$g = (int) $matches[2];
+		$b = (int) $matches[3];
+		$alpha = (float) $matches[4];
+
+		if ($r < 0 || $r > 255 || $g < 0 || $g > 255 || $b < 0 || $b > 255) {
+			throw new \InvalidArgumentException(
+				"Composantes RGB invalides dans le code RGBA '{$rgba}'. Les valeurs doivent être comprises entre 0 et 255."
+			);
+		}
+
+		if ($alpha < 0.0 || $alpha > 1.0) {
+			throw new \InvalidArgumentException("Valeur alpha invalide (doit être comprise entre 0 et 1) dans '{$rgba}'.");
+		}
+
+		return self::fromRgb("rgb({$r}, {$g}, {$b})");
 	}
 
 	/**
