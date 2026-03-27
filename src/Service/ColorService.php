@@ -300,6 +300,18 @@ class ColorService
 		}
 	}
 
+	public static function parseHex(string $hex): array
+	{
+		self::validateHex($hex);
+
+		$hex = ltrim($hex, self::HEX_PREFIX);
+		$r = hexdec(substr($hex, self::HEX_RED_OFFSET, self::HEX_COMPONENT_LENGTH));
+		$g = hexdec(substr($hex, self::HEX_GREEN_OFFSET, self::HEX_COMPONENT_LENGTH));
+		$b = hexdec(substr($hex, self::HEX_BLUE_OFFSET, self::HEX_COMPONENT_LENGTH));
+
+		return [$r, $g, $b];
+	}
+
 	public static function parseRgb(string $rgb): array
 	{
 		$matches = self::validateRgb($rgb);
