@@ -196,8 +196,6 @@ class ColorTest extends TestCase
 		}
 	}
 
-	// fromId / tryFromId
-
 	public function testFromIdReturnsCorrectColor(): void
 	{
 		$this->assertSame(Color::Black, Color::fromId(1));
@@ -207,6 +205,7 @@ class ColorTest extends TestCase
 	public function testFromIdThrowsOnUnknownId(): void
 	{
 		$this->expectException(\ValueError::class);
+		
 		Color::fromId(99999);
 	}
 
@@ -221,8 +220,6 @@ class ColorTest extends TestCase
 		$this->assertNull(Color::tryFromId(99999));
 	}
 
-	// fromName / tryFromName
-
 	public function testFromNameReturnsCorrectColor(): void
 	{
 		$this->assertSame(Color::Black, Color::fromName('Black'));
@@ -232,6 +229,7 @@ class ColorTest extends TestCase
 	public function testFromNameThrowsOnUnknownName(): void
 	{
 		$this->expectException(\ValueError::class);
+
 		Color::fromName('UnknownColor');
 	}
 
@@ -246,11 +244,10 @@ class ColorTest extends TestCase
 		$this->assertNull(Color::tryFromName('UnknownColor'));
 	}
 
-	// fromCode / tryFromCode
-
 	public function testFromCodeReturnsFirstMatchForAmbiguousCode(): void
 	{
 		$result = Color::fromCode(500);
+
 		$this->assertSame(500, $result->getCode());
 		$this->assertSame(Color::Red500, $result);
 	}
@@ -258,25 +255,30 @@ class ColorTest extends TestCase
 	public function testFromCodeThrowsOnZero(): void
 	{
 		$this->expectException(\ValueError::class);
+
 		Color::fromCode(0);
 	}
 
 	public function testFromCodeThrowsOnNegative(): void
 	{
 		$this->expectException(\ValueError::class);
+
 		Color::fromCode(-1);
 	}
 
 	public function testFromCodeThrowsOnUnknownCode(): void
 	{
 		$this->expectException(\ValueError::class);
+
 		Color::fromCode(9999);
 	}
 
 	public function testTryFromCodeReturnsColorOnMatch(): void
 	{
 		$result = Color::tryFromCode(500);
+
 		$this->assertNotNull($result);
+
 		$this->assertSame(500, $result->getCode());
 	}
 
@@ -291,8 +293,6 @@ class ColorTest extends TestCase
 		$this->assertNull(Color::tryFromCode(-1));
 	}
 
-	// fromTitle / tryFromTitle
-
 	public function testFromTitleReturnsCorrectColor(): void
 	{
 		$this->assertSame(Color::Black, Color::fromTitle('Noir absolu'));
@@ -302,6 +302,7 @@ class ColorTest extends TestCase
 	public function testFromTitleThrowsOnUnknownTitle(): void
 	{
 		$this->expectException(\ValueError::class);
+
 		Color::fromTitle('Couleur inexistante');
 	}
 
@@ -316,13 +317,11 @@ class ColorTest extends TestCase
 		$this->assertNull(Color::tryFromTitle('Couleur inexistante'));
 	}
 
-	// fromHex / tryFromHex
-
 	public function testFromHexReturnsCorrectColor(): void
 	{
 		$this->assertSame(Color::Red500, Color::fromHex('#ef4444'));
 		$this->assertSame(Color::Black, Color::fromHex('#000000'));
-		// Also support hex values without a leading '#'
+
 		$this->assertSame(Color::Red500, Color::fromHex('ef4444'));
 		$this->assertSame(Color::Black, Color::fromHex('000000'));
 	}
@@ -336,12 +335,14 @@ class ColorTest extends TestCase
 	public function testFromHexThrowsOnUnknownHex(): void
 	{
 		$this->expectException(\ValueError::class);
+
 		Color::fromHex('#123456');
 	}
 
 	public function testFromHexThrowsOnInvalidFormat(): void
 	{
 		$this->expectException(\InvalidArgumentException::class);
+
 		Color::fromHex('invalid');
 	}
 
@@ -359,10 +360,9 @@ class ColorTest extends TestCase
 	public function testTryFromHexThrowsOnInvalidFormat(): void
 	{
 		$this->expectException(\InvalidArgumentException::class);
+
 		Color::tryFromHex('invalid');
 	}
-
-	// fromRgb / tryFromRgb
 
 	public function testFromRgbReturnsCorrectColor(): void
 	{
@@ -373,12 +373,14 @@ class ColorTest extends TestCase
 	public function testFromRgbThrowsOnUnknownRgb(): void
 	{
 		$this->expectException(\ValueError::class);
+
 		Color::fromRgb('rgb(1, 2, 3)');
 	}
 
 	public function testFromRgbThrowsOnInvalidFormat(): void
 	{
 		$this->expectException(\InvalidArgumentException::class);
+
 		Color::fromRgb('not-rgb');
 	}
 
@@ -396,10 +398,9 @@ class ColorTest extends TestCase
 	public function testTryFromRgbThrowsOnInvalidFormat(): void
 	{
 		$this->expectException(\InvalidArgumentException::class);
+
 		Color::tryFromRgb('not-rgb');
 	}
-
-	// fromRgba / tryFromRgba
 
 	public function testFromRgbaReturnsCorrectColorIgnoringAlpha(): void
 	{
@@ -411,12 +412,14 @@ class ColorTest extends TestCase
 	public function testFromRgbaThrowsOnUnknownRgba(): void
 	{
 		$this->expectException(\ValueError::class);
+
 		Color::fromRgba('rgba(1, 2, 3, 0.5)');
 	}
 
 	public function testFromRgbaThrowsOnInvalidFormat(): void
 	{
 		$this->expectException(\InvalidArgumentException::class);
+
 		Color::fromRgba('invalid');
 	}
 
@@ -433,10 +436,9 @@ class ColorTest extends TestCase
 	public function testTryFromRgbaThrowsOnInvalidFormat(): void
 	{
 		$this->expectException(\InvalidArgumentException::class);
+
 		Color::tryFromRgba('invalid');
 	}
-
-	// fromHsl / tryFromHsl
 
 	public function testFromHslReturnsCorrectColor(): void
 	{
@@ -447,12 +449,14 @@ class ColorTest extends TestCase
 	public function testFromHslThrowsOnUnknownHsl(): void
 	{
 		$this->expectException(\ValueError::class);
+
 		Color::fromHsl('hsl(123, 45%, 67%)');
 	}
 
 	public function testFromHslThrowsOnInvalidFormat(): void
 	{
 		$this->expectException(\InvalidArgumentException::class);
+
 		Color::fromHsl('invalid');
 	}
 
@@ -470,10 +474,9 @@ class ColorTest extends TestCase
 	public function testTryFromHslThrowsOnInvalidFormat(): void
 	{
 		$this->expectException(\InvalidArgumentException::class);
+
 		Color::tryFromHsl('invalid');
 	}
-
-	// fromOklch / tryFromOklch
 
 	public function testFromOklchReturnsCorrectColor(): void
 	{
@@ -483,12 +486,14 @@ class ColorTest extends TestCase
 	public function testFromOklchThrowsOnUnknownOklch(): void
 	{
 		$this->expectException(\ValueError::class);
+
 		Color::fromOklch('oklch(0.5 0.1 180)');
 	}
 
 	public function testFromOklchThrowsOnInvalidFormat(): void
 	{
 		$this->expectException(\InvalidArgumentException::class);
+
 		Color::fromOklch('invalid');
 	}
 
@@ -505,6 +510,7 @@ class ColorTest extends TestCase
 	public function testTryFromOklchThrowsOnInvalidFormat(): void
 	{
 		$this->expectException(\InvalidArgumentException::class);
+
 		Color::tryFromOklch('invalid');
 	}
 }

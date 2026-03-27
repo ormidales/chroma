@@ -4,22 +4,17 @@ declare(strict_types=1);
 
 namespace Pyreweb\Chroma\Enum;
 
-use Pyreweb\Chroma\Service\ColorService;
+use Pyreweb\Chroma\Service\Convert;
+use Pyreweb\Chroma\Service\Validate;
 
 /**
- * Énumération des couleurs
- * 
  * @author Hugo Doueil <hugo@pyreweb.com>
  * @author Pyréweb <contact@pyreweb.com>
  */
 enum Color: int
 {
-	// Couleurs de base, de 1 à 99
-
 	case Black = 1;
 	case White = 2;
-
-	// Rouge, de 100 à 199
 
 	case Red50 = 100;
 	case Red100 = 101;
@@ -33,8 +28,6 @@ enum Color: int
 	case Red900 = 109;
 	case Red950 = 110;
 
-	// Orange, de 200 à 299
-
 	case Orange50 = 200;
 	case Orange100 = 201;
 	case Orange200 = 202;
@@ -46,8 +39,6 @@ enum Color: int
 	case Orange800 = 208;
 	case Orange900 = 209;
 	case Orange950 = 210;
-
-	// Ambre, de 300 à 399
 
 	case Amber50 = 300;
 	case Amber100 = 301;
@@ -61,8 +52,6 @@ enum Color: int
 	case Amber900 = 309;
 	case Amber950 = 310;
 
-	// Jaune, de 400 à 499
-
 	case Yellow50 = 400;
 	case Yellow100 = 401;
 	case Yellow200 = 402;
@@ -74,8 +63,6 @@ enum Color: int
 	case Yellow800 = 408;
 	case Yellow900 = 409;
 	case Yellow950 = 410;
-
-	// Lime, de 500 à 599
 
 	case Lime50 = 500;
 	case Lime100 = 501;
@@ -89,8 +76,6 @@ enum Color: int
 	case Lime900 = 509;
 	case Lime950 = 510;
 
-	// Vert, de 600 à 699
-
 	case Green50 = 600;
 	case Green100 = 601;
 	case Green200 = 602;
@@ -102,8 +87,6 @@ enum Color: int
 	case Green800 = 608;
 	case Green900 = 609;
 	case Green950 = 610;
-
-	// Émeraude, de 700 à 799
 
 	case Emerald50 = 700;
 	case Emerald100 = 701;
@@ -117,8 +100,6 @@ enum Color: int
 	case Emerald900 = 709;
 	case Emerald950 = 710;
 
-	// Sarcelle, de 800 à 899
-
 	case Teal50 = 800;
 	case Teal100 = 801;
 	case Teal200 = 802;
@@ -130,8 +111,6 @@ enum Color: int
 	case Teal800 = 808;
 	case Teal900 = 809;
 	case Teal950 = 810;
-
-	// Cyan, de 900 à 999
 
 	case Cyan50 = 900;
 	case Cyan100 = 901;
@@ -145,8 +124,6 @@ enum Color: int
 	case Cyan900 = 909;
 	case Cyan950 = 910;
 
-	// Ciel, de 1000 à 1099
-
 	case Sky50 = 1000;
 	case Sky100 = 1001;
 	case Sky200 = 1002;
@@ -158,8 +135,6 @@ enum Color: int
 	case Sky800 = 1008;
 	case Sky900 = 1009;
 	case Sky950 = 1010;
-
-	// Bleu, de 1100 à 1199
 
 	case Blue50 = 1100;
 	case Blue100 = 1101;
@@ -173,8 +148,6 @@ enum Color: int
 	case Blue900 = 1109;
 	case Blue950 = 1110;
 
-	// Indigo, de 1200 à 1299
-
 	case Indigo50 = 1200;
 	case Indigo100 = 1201;
 	case Indigo200 = 1202;
@@ -186,8 +159,6 @@ enum Color: int
 	case Indigo800 = 1208;
 	case Indigo900 = 1209;
 	case Indigo950 = 1210;
-
-	// Violet, de 1300 à 1399
 
 	case Violet50 = 1300;
 	case Violet100 = 1301;
@@ -201,8 +172,6 @@ enum Color: int
 	case Violet900 = 1309;
 	case Violet950 = 1310;
 
-	// Pourpre, de 1400 à 1499
-
 	case Purple50 = 1400;
 	case Purple100 = 1401;
 	case Purple200 = 1402;
@@ -214,8 +183,6 @@ enum Color: int
 	case Purple800 = 1408;
 	case Purple900 = 1409;
 	case Purple950 = 1410;
-
-	// Fuchsia, de 1500 à 1599
 
 	case Fuchsia50 = 1500;
 	case Fuchsia100 = 1501;
@@ -229,8 +196,6 @@ enum Color: int
 	case Fuchsia900 = 1509;
 	case Fuchsia950 = 1510;
 
-	// Rose, de 1600 à 1699
-
 	case Pink50 = 1600;
 	case Pink100 = 1601;
 	case Pink200 = 1602;
@@ -242,8 +207,6 @@ enum Color: int
 	case Pink800 = 1608;
 	case Pink900 = 1609;
 	case Pink950 = 1610;
-
-	// Rose, de 1700 à 1799
 
 	case Rose50 = 1700;
 	case Rose100 = 1701;
@@ -257,8 +220,6 @@ enum Color: int
 	case Rose900 = 1709;
 	case Rose950 = 1710;
 
-	// Ardoise, de 1800 à 1899
-
 	case Slate50 = 1800;
 	case Slate100 = 1801;
 	case Slate200 = 1802;
@@ -270,8 +231,6 @@ enum Color: int
 	case Slate800 = 1808;
 	case Slate900 = 1809;
 	case Slate950 = 1810;
-
-	// Gris, de 1900 à 1999
 
 	case Gray50 = 1900;
 	case Gray100 = 1901;
@@ -285,8 +244,6 @@ enum Color: int
 	case Gray900 = 1909;
 	case Gray950 = 1910;
 
-	// Zinc, de 2000 à 2099
-
 	case Zinc50 = 2000;
 	case Zinc100 = 2001;
 	case Zinc200 = 2002;
@@ -298,8 +255,6 @@ enum Color: int
 	case Zinc800 = 2008;
 	case Zinc900 = 2009;
 	case Zinc950 = 2010;
-
-	// Neutre, de 2100 à 2199
 
 	case Neutral50 = 2100;
 	case Neutral100 = 2101;
@@ -313,8 +268,6 @@ enum Color: int
 	case Neutral900 = 2109;
 	case Neutral950 = 2110;
 
-	// Pierre, de 2200 à 2299
-
 	case Stone50 = 2200;
 	case Stone100 = 2201;
 	case Stone200 = 2202;
@@ -326,8 +279,6 @@ enum Color: int
 	case Stone800 = 2208;
 	case Stone900 = 2209;
 	case Stone950 = 2210;
-
-	// Taupe, de 2300 à 2399
 
 	case Taupe50 = 2300;
 	case Taupe100 = 2301;
@@ -341,8 +292,6 @@ enum Color: int
 	case Taupe900 = 2309;
 	case Taupe950 = 2310;
 
-	// Mauve, de 2400 à 2499
-
 	case Mauve50 = 2400;
 	case Mauve100 = 2401;
 	case Mauve200 = 2402;
@@ -354,8 +303,6 @@ enum Color: int
 	case Mauve800 = 2408;
 	case Mauve900 = 2409;
 	case Mauve950 = 2410;
-
-	// Brume, de 2500 à 2599
 
 	case Mist50 = 2500;
 	case Mist100 = 2501;
@@ -369,8 +316,6 @@ enum Color: int
 	case Mist900 = 2509;
 	case Mist950 = 2510;
 
-	// Olive, de 2600 à 2699
-
 	case Olive50 = 2600;
 	case Olive100 = 2601;
 	case Olive200 = 2602;
@@ -382,8 +327,6 @@ enum Color: int
 	case Olive800 = 2608;
 	case Olive900 = 2609;
 	case Olive950 = 2610;
-
-	// Terre cuite, de 2700 à 2799
 
 	case Terracotta50 = 2700;
 	case Terracotta100 = 2701;
@@ -397,8 +340,6 @@ enum Color: int
 	case Terracotta900 = 2709;
 	case Terracotta950 = 2710;
 
-	// Pêche, de 2800 à 2899
-
 	case Peach50 = 2800;
 	case Peach100 = 2801;
 	case Peach200 = 2802;
@@ -410,8 +351,6 @@ enum Color: int
 	case Peach800 = 2808;
 	case Peach900 = 2809;
 	case Peach950 = 2810;
-
-	// Sable, de 2900 à 2999
 
 	case Sand50 = 2900;
 	case Sand100 = 2901;
@@ -425,8 +364,6 @@ enum Color: int
 	case Sand900 = 2909;
 	case Sand950 = 2910;
 
-	// Corail, de 3000 à 3099
-
 	case Coral50 = 3000;
 	case Coral100 = 3001;
 	case Coral200 = 3002;
@@ -438,8 +375,6 @@ enum Color: int
 	case Coral800 = 3008;
 	case Coral900 = 3009;
 	case Coral950 = 3010;
-
-	// Sage, de 3100 à 3199
 
 	case Sage50 = 3100;
 	case Sage100 = 3101;
@@ -453,8 +388,6 @@ enum Color: int
 	case Sage900 = 3109;
 	case Sage950 = 3110;
 
-	// Lagoon, de 3200 à 3299
-
 	case Lagoon50 = 3200;
 	case Lagoon100 = 3201;
 	case Lagoon200 = 3202;
@@ -467,33 +400,11 @@ enum Color: int
 	case Lagoon900 = 3209;
 	case Lagoon950 = 3210;
 
-	/**
-	 * Trouver une couleur par son identifiant
-	 *
-	 * Équivalent à Color::from($id). Lance une ValueError si aucune couleur ne correspond.
-	 *
-	 * @param int $id L'identifiant de la couleur
-	 *
-	 * @return self La couleur correspondante
-	 *
-	 * @throws \ValueError Si aucune couleur ne correspond à l'identifiant donné
-	 */
 	public static function fromId(int $id): self
 	{
 		return self::from($id);
 	}
 
-	/**
-	 * Trouver une couleur par son nom de case
-	 *
-	 * Lance une ValueError si aucune couleur ne correspond.
-	 *
-	 * @param string $name Le nom de la case de l'énumération (ex. 'Red500')
-	 *
-	 * @return self La couleur correspondante
-	 *
-	 * @throws \ValueError Si aucune couleur ne correspond au nom donné
-	 */
 	public static function fromName(string $name): self
 	{
 		foreach (self::cases() as $case) {
@@ -505,19 +416,6 @@ enum Color: int
 		throw new \ValueError("Aucune couleur trouvée avec le nom '{$name}'.");
 	}
 
-	/**
-	 * Trouver une couleur par son code numérique
-	 *
-	 * Retourne la première couleur correspondante, car plusieurs palettes peuvent
-	 * partager le même code numérique (ex. 500 pour Red500, Orange500, etc.).
-	 * Lance une ValueError si le code est inférieur ou égal à zéro, ou si aucune couleur ne correspond.
-	 *
-	 * @param int $code Le code numérique de la couleur (ex. 500), doit être un entier positif
-	 *
-	 * @return self La première couleur correspondante
-	 *
-	 * @throws \ValueError Si le code est inférieur ou égal à zéro, ou si aucune couleur ne correspond au code donné
-	 */
 	public static function fromCode(int $code): self
 	{
 		if ($code <= 0) {
@@ -526,6 +424,7 @@ enum Color: int
 
 		foreach (self::cases() as $case) {
 			$caseCode = $case->getCode();
+
 			if ($caseCode > 0 && $caseCode === $code) {
 				return $case;
 			}
@@ -534,17 +433,6 @@ enum Color: int
 		throw new \ValueError("Aucune couleur trouvée avec le code '{$code}'.");
 	}
 
-	/**
-	 * Trouver une couleur par son titre
-	 *
-	 * Lance une ValueError si aucune couleur ne correspond.
-	 *
-	 * @param string $title Le titre de la couleur (ex. 'Rouge passion')
-	 *
-	 * @return self La couleur correspondante
-	 *
-	 * @throws \ValueError Si aucune couleur ne correspond au titre donné
-	 */
 	public static function fromTitle(string $title): self
 	{
 		foreach (self::cases() as $case) {
@@ -556,22 +444,9 @@ enum Color: int
 		throw new \ValueError("Aucune couleur trouvée avec le titre '{$title}'.");
 	}
 
-	/**
-	 * Trouver une couleur par son code hexadécimal
-	 *
-	 * La comparaison est insensible à la casse (ex. '#EF4444' correspond à '#ef4444').
-	 * Lance une ValueError si aucune couleur ne correspond.
-	 *
-	 * @param string $hex Le code hexadécimal de la couleur (ex. '#ef4444' ou 'ef4444')
-	 *
-	 * @return self La couleur correspondante
-	 *
-	 * @throws \InvalidArgumentException Si le format hexadécimal est invalide
-	 * @throws \ValueError Si aucune couleur ne correspond au code hexadécimal donné
-	 */
 	public static function fromHex(string $hex): self
 	{
-		ColorService::validateHex($hex);
+		Validate::hex($hex);
 
 		$hex = '#' . strtolower(ltrim($hex, '#'));
 
@@ -584,18 +459,6 @@ enum Color: int
 		throw new \ValueError("Aucune couleur trouvée avec le code hexadécimal '{$hex}'.");
 	}
 
-	/**
-	 * Trouver une couleur par son code RGB
-	 *
-	 * Lance une ValueError si aucune couleur ne correspond.
-	 *
-	 * @param string $rgb Le code RGB de la couleur (ex. 'rgb(239, 68, 68)')
-	 *
-	 * @return self La couleur correspondante
-	 *
-	 * @throws \InvalidArgumentException Si le format RGB est invalide
-	 * @throws \ValueError Si aucune couleur ne correspond au code RGB donné
-	 */
 	public static function fromRgb(string $rgb): self
 	{
 		if (!preg_match('/^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/', $rgb, $matches)) {
@@ -623,20 +486,6 @@ enum Color: int
 		throw new \ValueError("Aucune couleur trouvée avec le code RGB '{$rgb}'.");
 	}
 
-	/**
-	 * Trouver une couleur par son code RGBA
-	 *
-	 * Le canal alpha est ignoré lors de la recherche : seules les composantes RGB
-	 * sont utilisées pour identifier la couleur correspondante.
-	 * Lance une ValueError si aucune couleur ne correspond.
-	 *
-	 * @param string $rgba Le code RGBA de la couleur (ex. 'rgba(239, 68, 68, 0.5)')
-	 *
-	 * @return self La couleur correspondante
-	 *
-	 * @throws \InvalidArgumentException Si le format RGBA est invalide
-	 * @throws \ValueError Si aucune couleur ne correspond aux composantes RGB extraites
-	 */
 	public static function fromRgba(string $rgba): self
 	{
 		if (!preg_match('/^rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d+(?:\.\d+)?)\s*\)$/', $rgba, $matches)) {
@@ -661,23 +510,6 @@ enum Color: int
 		return self::fromRgb("rgb({$r}, {$g}, {$b})");
 	}
 
-	/**
-	 * Trouver une couleur par son code HSL
-	 *
-	 * La valeur fournie doit correspondre au format produit par
-	 * {@see ColorService::rgb2hsl()} (ex. 'hsl(0, 91%, 60%)') : les composantes
-	 * H (0–360), S (0–100) et L (0–100) sont des entiers sans décimales.
-	 * La chaîne est normalisée avant comparaison, ce qui tolère des espaces
-	 * différents autour des virgules.
-	 * Lance une ValueError si aucune couleur ne correspond.
-	 *
-	 * @param string $hsl Le code HSL de la couleur (ex. 'hsl(0, 91%, 60%)')
-	 *
-	 * @return self La couleur correspondante
-	 *
-	 * @throws \InvalidArgumentException Si le format HSL est invalide ou si les composantes sont hors limites
-	 * @throws \ValueError Si aucune couleur ne correspond au code HSL donné
-	 */
 	public static function fromHsl(string $hsl): self
 	{
 		if (!preg_match('/^hsl\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*\)$/', $hsl, $matches)) {
@@ -711,21 +543,6 @@ enum Color: int
 		throw new \ValueError("Aucune couleur trouvée avec le code HSL '{$hsl}'.");
 	}
 
-	/**
-	 * Trouver une couleur par son code OKLCH
-	 *
-	 * La valeur fournie doit correspondre exactement au format produit par
-	 * {@see ColorService::rgb2oklch()} (ex. 'oklch(0.6274 0.2007 22.15)').
-	 * Lance une InvalidArgumentException si le format est invalide,
-	 * ou une ValueError si aucune couleur ne correspond.
-	 *
-	 * @param string $oklch Le code OKLCH de la couleur (ex. 'oklch(0.6274 0.2007 22.15)')
-	 *
-	 * @return self La couleur correspondante
-	 *
-	 * @throws \InvalidArgumentException Si le format OKLCH est invalide
-	 * @throws \ValueError Si aucune couleur ne correspond au code OKLCH donné
-	 */
 	public static function fromOklch(string $oklch): self
 	{
 		if (!preg_match('/^oklch\(\d+(?:\.\d+)? \d+(?:\.\d+)? \d+(?:\.\d+)?\)$/', $oklch)) {
@@ -741,29 +558,11 @@ enum Color: int
 		throw new \ValueError("Aucune couleur trouvée avec le code OKLCH '{$oklch}'.");
 	}
 
-	/**
-	 * Trouver une couleur par son identifiant, ou retourner null si introuvable
-	 *
-	 * Équivalent à Color::tryFrom($id). Retourne null si aucune couleur ne correspond.
-	 *
-	 * @param int $id L'identifiant de la couleur
-	 *
-	 * @return self|null La couleur correspondante, ou null si aucune correspondance
-	 */
 	public static function tryFromId(int $id): ?self
 	{
 		return self::tryFrom($id);
 	}
 
-	/**
-	 * Trouver une couleur par son nom de case, ou retourner null si introuvable
-	 *
-	 * Retourne null si aucune couleur ne correspond.
-	 *
-	 * @param string $name Le nom de la case de l'énumération (ex. 'Red500')
-	 *
-	 * @return self|null La couleur correspondante, ou null si aucune correspondance
-	 */
 	public static function tryFromName(string $name): ?self
 	{
 		try {
@@ -773,15 +572,6 @@ enum Color: int
 		}
 	}
 
-	/**
-	 * Trouver une couleur par son code numérique, ou retourner null si introuvable
-	 *
-	 * Retourne null si aucune couleur ne correspond ou si le code est invalide.
-	 *
-	 * @param int $code Le code numérique de la couleur (ex. 500)
-	 *
-	 * @return self|null La première couleur correspondante, ou null si aucune correspondance
-	 */
 	public static function tryFromCode(int $code): ?self
 	{
 		try {
@@ -791,15 +581,6 @@ enum Color: int
 		}
 	}
 
-	/**
-	 * Trouver une couleur par son titre, ou retourner null si introuvable
-	 *
-	 * Retourne null si aucune couleur ne correspond.
-	 *
-	 * @param string $title Le titre de la couleur (ex. 'Rouge passion')
-	 *
-	 * @return self|null La couleur correspondante, ou null si aucune correspondance
-	 */
 	public static function tryFromTitle(string $title): ?self
 	{
 		try {
@@ -809,17 +590,6 @@ enum Color: int
 		}
 	}
 
-	/**
-	 * Trouver une couleur par son code hexadécimal, ou retourner null si introuvable
-	 *
-	 * Retourne null si aucune couleur ne correspond.
-	 *
-	 * @param string $hex Le code hexadécimal de la couleur (ex. '#ef4444' ou 'ef4444')
-	 *
-	 * @return self|null La couleur correspondante, ou null si aucune correspondance
-	 *
-	 * @throws \InvalidArgumentException Si le format hexadécimal est invalide
-	 */
 	public static function tryFromHex(string $hex): ?self
 	{
 		try {
@@ -829,17 +599,6 @@ enum Color: int
 		}
 	}
 
-	/**
-	 * Trouver une couleur par son code RGB, ou retourner null si introuvable
-	 *
-	 * Retourne null si aucune couleur ne correspond.
-	 *
-	 * @param string $rgb Le code RGB de la couleur (ex. 'rgb(239, 68, 68)')
-	 *
-	 * @return self|null La couleur correspondante, ou null si aucune correspondance
-	 *
-	 * @throws \InvalidArgumentException Si le format RGB est invalide
-	 */
 	public static function tryFromRgb(string $rgb): ?self
 	{
 		try {
@@ -849,17 +608,6 @@ enum Color: int
 		}
 	}
 
-	/**
-	 * Trouver une couleur par son code RGBA, ou retourner null si introuvable
-	 *
-	 * Le canal alpha est ignoré lors de la recherche. Retourne null si aucune couleur ne correspond.
-	 *
-	 * @param string $rgba Le code RGBA de la couleur (ex. 'rgba(239, 68, 68, 0.5)')
-	 *
-	 * @return self|null La couleur correspondante, ou null si aucune correspondance
-	 *
-	 * @throws \InvalidArgumentException Si le format RGBA est invalide
-	 */
 	public static function tryFromRgba(string $rgba): ?self
 	{
 		try {
@@ -869,17 +617,6 @@ enum Color: int
 		}
 	}
 
-	/**
-	 * Trouver une couleur par son code HSL, ou retourner null si introuvable
-	 *
-	 * Retourne null si aucune couleur ne correspond.
-	 *
-	 * @param string $hsl Le code HSL de la couleur (ex. 'hsl(0, 91%, 60%)')
-	 *
-	 * @return self|null La couleur correspondante, ou null si aucune correspondance
-	 *
-	 * @throws \InvalidArgumentException Si le format HSL est invalide ou si les composantes sont hors limites
-	 */
 	public static function tryFromHsl(string $hsl): ?self
 	{
 		try {
@@ -889,17 +626,6 @@ enum Color: int
 		}
 	}
 
-	/**
-	 * Trouver une couleur par son code OKLCH, ou retourner null si introuvable
-	 *
-	 * Retourne null si aucune couleur ne correspond.
-	 *
-	 * @param string $oklch Le code OKLCH de la couleur (ex. 'oklch(0.6274 0.2007 22.15)')
-	 *
-	 * @return self|null La couleur correspondante, ou null si aucune correspondance
-	 *
-	 * @throws \InvalidArgumentException Si le format OKLCH est invalide
-	 */
 	public static function tryFromOklch(string $oklch): ?self
 	{
 		try {
@@ -909,33 +635,16 @@ enum Color: int
 		}
 	}
 
-	/**
-	 * Obtenir l'identifiant de la couleur
-	 * 
-	 * @return int L'identifiant de la couleur
-	 */
 	public function getId(): int
 	{
 		return $this->value;
 	}
 
-	/**
-	 * Obtenir le nom de la couleur
-	 * 
-	 * @return string Le nom de la couleur
-	 */
 	public function getName(): string
 	{
 		return $this->name;
 	}
 
-	/**
-	 * Obtenir le code de la couleur
-	 * 
-	 * Le code est la partie numérique du nom de la couleur
-	 * 
-	 * @return int Le code de la couleur
-	 */
 	public function getCode(): int
 	{
 		if (preg_match('/\d+$/', $this->getName(), $matches)) {
@@ -945,11 +654,6 @@ enum Color: int
 		return 0;
 	}
 
-	/**
-	 * Obtenir le titre de la couleur
-	 * 
-	 * @return string Le titre de la couleur
-	 */
 	public function getTitle(): string
 	{
 		return match($this) {
@@ -1344,11 +1048,6 @@ enum Color: int
 		};
 	}
 
-	/**
-	 * Obtenir le code hexadécimal de la couleur
-	 * 
-	 * @return string Le code hexadécimal de la couleur
-	 */
 	public function getHex(): string
 	{
 		return match($this) {
@@ -1743,56 +1442,27 @@ enum Color: int
 		};
 	}
 
-	/**
-	 * Obtenir le code RGB de la couleur
-	 * 
-	 * @return string|null Le code RGB de la couleur
-	 */
 	public function getRgb(): ?string
 	{
-		return ColorService::hex2rgb($this->getHex());
+		return Convert::hex2rgb($this->getHex());
 	}
 
-	/**
-	 * Obtenir le code RGBA de la couleur
-	 * 
-	 * @param float $alpha Le niveau de transparence (0 à 1)
-	 * 
-	 * @return string|null Le code RGBA de la couleur
-	 */
-	public function getRgba(float $alpha = ColorService::DEFAULT_ALPHA): ?string
+	public function getRgba(float $alpha = Convert::DEFAULT_ALPHA): ?string
 	{
-		return ColorService::hex2rgba($this->getHex(), $alpha);
+		return Convert::hex2rgba($this->getHex(), $alpha);
 	}
 
-	/**
-	 * Obtenir le code HSL de la couleur
-	 * 
-	 * @return string|null Le code HSL de la couleur
-	 */
 	public function getHsl(): ?string
 	{
-		return ColorService::hex2hsl($this->getHex());
+		return Convert::hex2hsl($this->getHex());
 	}
 
-	/**
-	 * Obtenir le code OKLCH de la couleur
-	 * 
-	 * @return string|null Le code OKLCH de la couleur
-	 */
 	public function getOklch(): ?string
 	{
-		return ColorService::hex2oklch($this->getHex());
+		return Convert::hex2oklch($this->getHex());
 	}
 
-	/**
-	 * Convertir la couleur en tableau
-	 * 
-	 * @param float $alpha Le niveau de transparence (0 à 1)
-	 * 
-	 * @return array La couleur sous forme de tableau
-	 */
-	public function toArray(float $alpha = ColorService::DEFAULT_ALPHA): array
+	public function toArray(float $alpha = Convert::DEFAULT_ALPHA): array
 	{
 		return [
 			'id' => $this->getId(),

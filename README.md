@@ -14,7 +14,7 @@ composer require pyreweb/chroma
 
 ## Utilisation
 
-### Récupérer une couleur
+### Récupération des valeurs
 
 ```php
 use Pyreweb\Chroma\Enum\Color;
@@ -32,23 +32,6 @@ $color->getRgba(0.5); // "rgba(239, 68, 68, 0.5)"
 $color->getHsl();     // "hsl(0, 91%, 60%)"
 $color->getOklch();   // "oklch(0.6274 0.2007 22.15)"
 $color->toArray();    // Tableau associatif contenant toutes les méthodes précèdentes
-```
-
-### Convertir une couleur manuellement
-
-```php
-use Pyreweb\Chroma\Service\ColorService;
-
-ColorService::hex2rgb('#ef4444');                // "rgb(239, 68, 68)"
-ColorService::hex2rgba('#ef4444');               // "rgba(239, 68, 68, 1)"
-ColorService::hex2rgba('#ef4444', 0.5);          // "rgba(239, 68, 68, 0.5)"
-ColorService::hex2hsl('#ef4444');                // "hsl(0, 91%, 60%)"
-ColorService::hex2oklch('#ef4444');              // "oklch(0.6274 0.2007 22.15)"
-
-ColorService::rgb2rgba('rgb(239, 68, 68)');      // "rgba(239, 68, 68, 1)"
-ColorService::rgb2rgba('rgb(239, 68, 68)', 0.5); // "rgba(239, 68, 68, 0.5)"
-ColorService::rgb2hsl('rgb(239, 68, 68)');       // "hsl(0, 91%, 60%)"
-ColorService::rgb2oklch('rgb(239, 68, 68)');     // "oklch(0.6274 0.2007 22.15)"
 ```
 
 ### Itérer sur toutes les couleurs
@@ -69,8 +52,6 @@ use Pyreweb\Chroma\Enum\Color;
 Color::from(105);    // Recherche la couleur avec l'id 105, avec erreur si aucune trouvée
 Color::tryFrom(105); // Recherche la couleur avec l'id 105, avec null si aucune trouvée
 
-// Dans une prochaine version, nous ajouterons les méthodes suivantes
-
 Color::fromId(105);
 Color::fromName('Red500');
 Color::fromCode(500);
@@ -81,8 +62,6 @@ Color::fromRgba('rgba(239, 68, 68, 0.5)');
 Color::fromHsl('hsl(0, 91%, 60%)');
 Color::fromOklch('oklch(0.6274 0.2007 22.15)');
 
-// Et les variantes sans erreurs mais avec des null
-
 Color::tryFromId(105);
 Color::tryFromName('Red500');
 Color::tryFromCode(500);
@@ -92,6 +71,23 @@ Color::tryFromRgb('rgb(239, 68, 68)');
 Color::tryFromRgba('rgba(239, 68, 68, 0.5)');
 Color::tryFromHsl('hsl(0, 91%, 60%)');
 Color::tryFromOklch('oklch(0.6274 0.2007 22.15)');
+```
+
+### Convertir une couleur manuellement
+
+```php
+use Pyreweb\Chroma\Service\Convert;
+
+Convert::hex2rgb('#ef4444');                // "rgb(239, 68, 68)"
+Convert::hex2rgba('#ef4444');               // "rgba(239, 68, 68, 1)"
+Convert::hex2rgba('#ef4444', 0.5);          // "rgba(239, 68, 68, 0.5)"
+Convert::hex2hsl('#ef4444');                // "hsl(0, 91%, 60%)"
+Convert::hex2oklch('#ef4444');              // "oklch(0.6274 0.2007 22.15)"
+
+Convert::rgb2rgba('rgb(239, 68, 68)');      // "rgba(239, 68, 68, 1)"
+Convert::rgb2rgba('rgb(239, 68, 68)', 0.5); // "rgba(239, 68, 68, 0.5)"
+Convert::rgb2hsl('rgb(239, 68, 68)');       // "hsl(0, 91%, 60%)"
+Convert::rgb2oklch('rgb(239, 68, 68)');     // "oklch(0.6274 0.2007 22.15)"
 ```
 
 ## Palettes disponibles
@@ -131,13 +127,6 @@ Color::tryFromOklch('oklch(0.6274 0.2007 22.15)');
 | Coral        | `Coral50` → `Coral950`                     |
 | Sage         | `Sage50` → `Sage950`                       |
 | Lagoon       | `Lagoon50` → `Lagoon950`                   |
-
-## Tests
-
-```bash
-composer require --dev phpunit/phpunit
-vendor/bin/phpunit
-```
 
 ## Licence
 
