@@ -59,9 +59,6 @@ Color::fromId(Color::Red500->getId());
 Color::fromName('Red500');
 Color::fromName(Color::Red500->getName());
 
-Color::fromCode(500);
-Color::fromCode(Color::Red500->getCode());
-
 Color::fromTitle('Rouge passion');
 Color::fromTitle(Color::Red500->getTitle());
 
@@ -76,7 +73,6 @@ Color::fromOklch(Color::Red500->getOklch());
 Color::tryFrom(Color::Red500->getId());
 Color::tryFromId(Color::Red500->getId());
 Color::tryFromName(Color::Red500->getName());
-Color::tryFromCode(Color::Red500->getCode());
 Color::tryFromTitle(Color::Red500->getTitle());
 Color::tryFromHex(Color::Red500->getHex());
 Color::tryFromRgb(Color::Red500->getRgb());
