@@ -731,4 +731,19 @@ class ColorTest extends TestCase
 	{
 		$this->assertSame('cmyk(0%, 71.55%, 71.55%, 6.27%)', Color::Red500->getCmyk());
 	}
+
+	public function testGetParsedHexBlack(): void
+	{
+		$this->assertSame([0, 0, 0], Color::Black->getParsedHex());
+	}
+
+	public function testGetParsedHexWhite(): void
+	{
+		$this->assertSame([255, 255, 255], Color::White->getParsedHex());
+	}
+
+	public function testGetParsedHexRed500(): void
+	{
+		$this->assertSame([239, 68, 68], Color::Red500->getParsedHex());
+	}
 }
