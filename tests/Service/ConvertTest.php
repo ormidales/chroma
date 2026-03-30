@@ -126,4 +126,12 @@ class ConvertTest extends TestCase
 		$this->assertSame($expected, Convert::hex2cmyk('#FFFFFF'));
 		$this->assertSame($expected, Convert::hex2cmyk(Color::White->getHex()));
 	}
+
+	public function testHex2CmykRed500(): void
+	{
+		$expected = 'cmyk(0%, 71.55%, 71.55%, 6.27%)';
+
+		$this->assertSame($expected, Convert::hex2cmyk('#ef4444'));
+		$this->assertSame($expected, Convert::hex2cmyk(Color::Red500->getHex()));
+	}
 }
