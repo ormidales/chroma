@@ -103,6 +103,14 @@ class ConvertTest extends TestCase
 		$this->assertSame($expected, Convert::hex2oklch(Color::White->getHex()));
 	}
 
+	public function testHex2OklchRed500(): void
+	{
+		$expected = 'oklch(63.68%, 20.78%, 25.33132777693)';
+
+		$this->assertSame($expected, Convert::hex2oklch('#ef4444'));
+		$this->assertSame($expected, Convert::hex2oklch(Color::Red500->getHex()));
+	}
+
 	public function testHex2CmykBlack(): void
 	{
 		$expected = 'cmyk(0%, 0%, 0%, 100%)';
