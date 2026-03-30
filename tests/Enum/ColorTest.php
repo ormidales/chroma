@@ -69,4 +69,74 @@ class ColorTest extends TestCase
 			$this->assertSame($color, Color::fromHsl($color->getHsl()));
 		}
 	}
+
+	public function testFromOklch(): void
+	{
+		foreach (Color::cases() as $color) {
+			$this->assertSame($color, Color::fromOklch($color->getOklch()));
+		}
+	}
+
+	public function testTryFrom(): void
+	{
+		foreach (Color::cases() as $color) {
+			$this->assertSame($color, Color::tryFrom($color->getId()));
+		}
+	}
+
+	public function testTryFromId(): void
+	{
+		foreach (Color::cases() as $color) {
+			$this->assertSame($color, Color::tryFromId($color->getId()));
+		}
+	}
+
+	public function testTryFromName(): void
+	{
+		foreach (Color::cases() as $color) {
+			$this->assertSame($color, Color::tryFromName($color->getName()));
+		}
+	}
+
+	public function testTryFromTitle(): void
+	{
+		foreach (Color::cases() as $color) {
+			$this->assertSame($color, Color::tryFromTitle($color->getTitle()));
+		}
+	}
+
+	public function testTryFromHex(): void
+	{
+		foreach (Color::cases() as $color) {
+			$this->assertSame($color, Color::tryFromHex($color->getHex()));
+		}
+	}
+
+	public function testTryFromRgb(): void
+	{
+		foreach (Color::cases() as $color) {
+			$this->assertSame($color, Color::tryFromRgb($color->getRgb()));
+		}
+	}
+
+	public function testTryFromRgba(): void
+	{
+		foreach (Color::cases() as $color) {
+			$this->assertSame($color, Color::tryFromRgba($color->getRgba()));
+		}
+	}
+
+	public function testTryFromHsl(): void
+	{
+		foreach (Color::cases() as $color) {
+			$this->assertSame($color, Color::tryFromHsl($color->getHsl()));
+		}
+	}
+
+	public function testTryFromOklch(): void
+	{
+		foreach (Color::cases() as $color) {
+			$this->assertSame($color, Color::tryFromOklch($color->getOklch()));
+		}
+	}
 }
