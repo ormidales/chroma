@@ -761,4 +761,19 @@ class ColorTest extends TestCase
 	{
 		$this->assertSame([239, 68, 68], Color::Red500->getParsedRgb());
 	}
+
+	public function testGetParsedRgbaBlack(): void
+	{
+		$this->assertSame([0, 0, 0, 1.0], Color::Black->getParsedRgba());
+	}
+
+	public function testGetParsedRgbaWhite(): void
+	{
+		$this->assertSame([255, 255, 255, 1.0], Color::White->getParsedRgba());
+	}
+
+	public function testGetParsedRgbaRed500(): void
+	{
+		$this->assertSame([239, 68, 68, 1.0], Color::Red500->getParsedRgba());
+	}
 }
