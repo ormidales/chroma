@@ -1,6 +1,6 @@
 # pyreweb/chroma
 
-Bibliothèque PHP d'énumérations et de conversion de couleurs, supportant les formats HEX, RGB, RGBA, HSL et OKLCH.
+Bibliothèque PHP d'énumérations et de conversion de couleurs, supportant les formats HEX, RGB, RGBA, HSL, OKLCH et CMYK.
 
 ## Prérequis
 
@@ -21,17 +21,18 @@ use Pyreweb\Chroma\Enum\Color;
 
 $color = Color::Red500;
 
-$color->getId();      // 105
-$color->getName();    // "Red500"
-$color->getCode();    // 500
-$color->getTitle();   // "Rouge passion"
-$color->getHex();     // "#ef4444"
-$color->getRgb();     // "rgb(239, 68, 68)"
-$color->getRgba();    // "rgba(239, 68, 68, 1)"
-$color->getRgba(0.5); // "rgba(239, 68, 68, 0.5)"
-$color->getHsl();     // "hsl(0, 91%, 60%)"
-$color->getOklch();   // "oklch(0.6274 0.2007 22.15)"
-$color->toArray();    // Tableau associatif contenant toutes les méthodes précèdentes
+$color->getId();
+$color->getName();
+$color->getCode();
+$color->getTitle();
+$color->getHex();
+$color->getRgb();
+$color->getRgba();
+$color->getRgba(0.5);
+$color->getHsl();
+$color->getOklch();
+$color->getCmyk();
+$color->toArray();
 ```
 
 ### Itérer sur toutes les couleurs
@@ -49,28 +50,28 @@ foreach (Color::cases() as $color) {
 ```php
 use Pyreweb\Chroma\Enum\Color;
 
-Color::from(105);    // Recherche la couleur avec l'id 105, avec erreur si aucune trouvée
-Color::tryFrom(105); // Recherche la couleur avec l'id 105, avec null si aucune trouvée
+Color::from(Color::Red500->getId());
+Color::tryFrom(Color::Red500->getId());
 
-Color::fromId(105);
-Color::fromName('Red500');
-Color::fromCode(500);
-Color::fromTitle('Rouge passion');
-Color::fromHex('#ef4444');
-Color::fromRgb('rgb(239, 68, 68)');
-Color::fromRgba('rgba(239, 68, 68, 0.5)');
-Color::fromHsl('hsl(0, 91%, 60%)');
-Color::fromOklch('oklch(0.6274 0.2007 22.15)');
+Color::fromId(Color::Red500->getId());
+Color::fromName(Color::Red500->getName());
+Color::fromCode(Color::Red500->getCode());
+Color::fromTitle(Color::Red500->getTitle());
+Color::fromHex(Color::Red500->getHex());
+Color::fromRgb(Color::Red500->getRgb());
+Color::fromRgba(Color::Red500->getRgba());
+Color::fromHsl(Color::Red500->getHsl());
+Color::fromOklch(Color::Red500->getOklch());
 
-Color::tryFromId(105);
-Color::tryFromName('Red500');
-Color::tryFromCode(500);
-Color::tryFromTitle('Rouge passion');
-Color::tryFromHex('#ef4444');
-Color::tryFromRgb('rgb(239, 68, 68)');
-Color::tryFromRgba('rgba(239, 68, 68, 0.5)');
-Color::tryFromHsl('hsl(0, 91%, 60%)');
-Color::tryFromOklch('oklch(0.6274 0.2007 22.15)');
+Color::tryFromId(Color::Red500->getId());
+Color::tryFromName(Color::Red500->getName());
+Color::tryFromCode(Color::Red500->getCode());
+Color::tryFromTitle(Color::Red500->getTitle());
+Color::tryFromHex(Color::Red500->getHex());
+Color::tryFromRgb(Color::Red500->getRgb());
+Color::tryFromRgba(Color::Red500->getRgba());
+Color::tryFromHsl(Color::Red500->getHsl());
+Color::tryFromOklch(Color::Red500->getOklch());
 ```
 
 ### Convertir une couleur manuellement
@@ -78,16 +79,12 @@ Color::tryFromOklch('oklch(0.6274 0.2007 22.15)');
 ```php
 use Pyreweb\Chroma\Service\Convert;
 
-Convert::hex2rgb('#ef4444');                // "rgb(239, 68, 68)"
-Convert::hex2rgba('#ef4444');               // "rgba(239, 68, 68, 1)"
-Convert::hex2rgba('#ef4444', 0.5);          // "rgba(239, 68, 68, 0.5)"
-Convert::hex2hsl('#ef4444');                // "hsl(0, 91%, 60%)"
-Convert::hex2oklch('#ef4444');              // "oklch(0.6274 0.2007 22.15)"
-
-Convert::rgb2rgba('rgb(239, 68, 68)');      // "rgba(239, 68, 68, 1)"
-Convert::rgb2rgba('rgb(239, 68, 68)', 0.5); // "rgba(239, 68, 68, 0.5)"
-Convert::rgb2hsl('rgb(239, 68, 68)');       // "hsl(0, 91%, 60%)"
-Convert::rgb2oklch('rgb(239, 68, 68)');     // "oklch(0.6274 0.2007 22.15)"
+Convert::hex2rgb(Color::Red500->getHex());
+Convert::hex2rgba(Color::Red500->getHex());
+Convert::hex2rgba(Color::Red500->getHex(), 0.5);
+Convert::hex2hsl(Color::Red500->getHex());
+Convert::hex2oklch(Color::Red500->getHex());
+Convert::hex2cmyk(Color::Red500->getHex());
 ```
 
 ## Palettes disponibles
