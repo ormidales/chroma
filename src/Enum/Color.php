@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Pyreweb\Chroma\Enum;
 
 use Pyreweb\Chroma\Service\Convert;
-use Pyreweb\Chroma\Service\Validate;
 
 /**
  * @author Hugo Doueil <hugo@pyreweb.com>
