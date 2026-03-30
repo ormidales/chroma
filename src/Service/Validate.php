@@ -115,4 +115,23 @@ class Validate
 
 		return $oklch;
 	}
+
+	public static function cmyk(string $cmyk): string
+	{
+		if (!preg_match('/^cmyk\(\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*\)$/', $cmyk, $matches)) {
+			throw new \InvalidArgumentException(
+				'La couleur CMYK doit être au format cmyk(C%, M%, Y%, K%) avec C, M, Y et K entre 0 et 100.'
+			);
+		}
+
+		for ($i = 1; $i <= 4; $i++) {
+			if ((int)$matches[$i] < 0 || (int)$matches[$i] > 100) {
+				throw new \InvalidArgumentException(
+					'La couleur CMYK doit être au format cmyk(C%, M%, Y%, K%) avec C, M, Y et K entre 0 et 100.'
+				);
+			}
+		}
+
+		return $cmyk;
+	}
 }
