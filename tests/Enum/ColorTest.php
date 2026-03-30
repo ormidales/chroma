@@ -94,4 +94,52 @@ class ColorTest extends TestCase
 		$this->assertSame($expected, Color::fromName(Color::Red500->name));
 		$this->assertSame($expected, Color::fromName(Color::Red500->getName()));
 	}
+
+	public function testFromTitleBlack(): void
+	{
+		$expected = Color::Black;
+
+		$this->assertSame($expected, Color::fromTitle('Noir'));
+		$this->assertSame($expected, Color::fromTitle(Color::Black->getTitle()));
+	}
+
+	public function testFromTitleWhite(): void
+	{
+		$expected = Color::White;
+
+		$this->assertSame($expected, Color::fromTitle('Blanc'));
+		$this->assertSame($expected, Color::fromTitle(Color::White->getTitle()));
+	}
+
+	public function testFromTitleRed500(): void
+	{
+		$expected = Color::Red500;
+
+		$this->assertSame($expected, Color::fromTitle('Rouge passion'));
+		$this->assertSame($expected, Color::fromTitle(Color::Red500->getTitle()));
+	}
+
+	public function testFromHexBlack(): void
+	{
+		$expected = Color::Black;
+
+		$this->assertSame($expected, Color::fromHex('#000000'));
+		$this->assertSame($expected, Color::fromHex(Color::Black->getHex()));
+	}
+
+	public function testFromHexWhite(): void
+	{
+		$expected = Color::White;
+
+		$this->assertSame($expected, Color::fromHex('#ffffff'));
+		$this->assertSame($expected, Color::fromHex(Color::White->getHex()));
+	}
+
+	public function testFromHexRed500(): void
+	{
+		$expected = Color::Red500;
+
+		$this->assertSame($expected, Color::fromHex('#ef4444'));
+		$this->assertSame($expected, Color::fromHex(Color::Red500->getHex()));
+	}
 }
