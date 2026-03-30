@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Pyreweb\Chroma\Enum;
 
 use Pyreweb\Chroma\Service\Convert;
+use Pyreweb\Chroma\Service\Parse;
 
 /**
  * @author Hugo Doueil <hugo@pyreweb.com>
@@ -1381,6 +1382,21 @@ enum Color: int
 		return Convert::hex2cmyk($this->getHex());
 	}
 
+	public function getParsedHex(): array
+	{
+		return Parse::hex($this->getHex());
+	}
+
+	public function getParsedRgb(): array
+	{
+		return Parse::rgb($this->getRgb());
+	}
+
+	public function getParsedRgba(float $alpha = 1.0): array
+	{
+		return Parse::rgba($this->getRgba($alpha));
+	}
+
 	public function toArray(float $alpha = 1.0): array
 	{
 		return [
@@ -1388,9 +1404,18 @@ enum Color: int
 			'name' => $this->getName(),
 			'code' => $this->getCode(),
 			'title' => $this->getTitle(),
-			'hex' => $this->getHex(),
-			'rgb' => $this->getRgb(),
-			'rgba' => $this->getRgba($alpha),
+			'hex' => [
+				'raw' => $this->getHex(),
+				'parsed' => $this->getParsedHex(),
+			],
+			'rgb' => [
+				'raw' => $this->getRgb(),
+				'parsed' => $this->getParsedRgb(),
+			],
+			'rgba' => [
+				'raw' => $this->getRgba($alpha),
+				'parsed' => $this->getParsedRgba($alpha),
+			],
 			'hsl' => $this->getHsl(),
 			'oklch' => $this->getOklch(),
 			'cmyk' => $this->getCmyk(),
