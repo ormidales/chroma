@@ -571,4 +571,26 @@ class ColorTest extends TestCase
 	{
 		$this->assertNull(Color::tryFromOklch('oklch(101%, 0.217, 0)'));
 	}
+
+	public function testGetIdBlack(): void
+	{
+		$this->assertSame(1, Color::Black->getId());
+	}
+
+	public function testGetIdWhite(): void
+	{
+		$this->assertSame(2, Color::White->getId());
+	}
+
+	public function testGetIdRed500(): void
+	{
+		$this->assertSame(105, Color::Red500->getId());
+	}
+
+	public function testGetIdInvalid(): void
+	{
+		$this->expectException(\ValueError::class);
+
+		Color::fromId(999999)->getId();
+	}
 }
