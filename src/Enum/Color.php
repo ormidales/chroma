@@ -572,8 +572,8 @@ enum Color: int
 	public function getTitle(): string
 	{
 		return match($this) {
-			self::Black => 'Noir absolu',
-			self::White => 'Blanc pur',
+			self::Black => 'Noir',
+			self::White => 'Blanc',
 
 			self::Red50 => 'Rouge rosée',
 			self::Red100 => 'Rouge nacré',
