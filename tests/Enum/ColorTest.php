@@ -641,4 +641,19 @@ class ColorTest extends TestCase
 	{
 		$this->assertSame('Rouge passion', Color::Red500->getTitle());
 	}
+
+	public function testGetHexBlack(): void
+	{
+		$this->assertSame('#000000', Color::Black->getHex());
+	}
+
+	public function testGetHexWhite(): void
+	{
+		$this->assertSame('#ffffff', Color::White->getHex());
+	}
+
+	public function testGetHexRed500(): void
+	{
+		$this->assertSame('#ef4444', Color::Red500->getHex());
+	}
 }
