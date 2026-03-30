@@ -208,17 +208,17 @@ enum Color: int
 	case Pink900 = 1609;
 	case Pink950 = 1610;
 
-	case Rose50 = 1700;
-	case Rose100 = 1701;
-	case Rose200 = 1702;
-	case Rose300 = 1703;
-	case Rose400 = 1704;
-	case Rose500 = 1705;
-	case Rose600 = 1706;
-	case Rose700 = 1707;
-	case Rose800 = 1708;
-	case Rose900 = 1709;
-	case Rose950 = 1710;
+	case Gold50 = 1700;
+	case Gold100 = 1701;
+	case Gold200 = 1702;
+	case Gold300 = 1703;
+	case Gold400 = 1704;
+	case Gold500 = 1705;
+	case Gold600 = 1706;
+	case Gold700 = 1707;
+	case Gold800 = 1708;
+	case Gold900 = 1709;
+	case Gold950 = 1710;
 
 	case Slate50 = 1800;
 	case Slate100 = 1801;
@@ -416,23 +416,6 @@ enum Color: int
 		throw new \ValueError("Aucune couleur trouvée avec le nom '{$name}'.");
 	}
 
-	public static function fromCode(int $code): self
-	{
-		if ($code <= 0) {
-			throw new \ValueError("Le code de couleur doit être un entier positif. Valeur fournie : '{$code}'.");
-		}
-
-		foreach (self::cases() as $case) {
-			$caseCode = $case->getCode();
-
-			if ($caseCode > 0 && $caseCode === $code) {
-				return $case;
-			}
-		}
-		
-		throw new \ValueError("Aucune couleur trouvée avec le code '{$code}'.");
-	}
-
 	public static function fromTitle(string $title): self
 	{
 		foreach (self::cases() as $case) {
@@ -446,10 +429,6 @@ enum Color: int
 
 	public static function fromHex(string $hex): self
 	{
-		Validate::hex($hex);
-
-		$hex = '#' . strtolower(ltrim($hex, '#'));
-
 		foreach (self::cases() as $case) {
 			if ($case->getHex() === $hex) {
 				return $case;
@@ -461,24 +440,8 @@ enum Color: int
 
 	public static function fromRgb(string $rgb): self
 	{
-		if (!preg_match('/^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/', $rgb, $matches)) {
-			throw new \InvalidArgumentException("Format RGB invalide : '{$rgb}'.");
-		}
-
-		$r = (int) $matches[1];
-		$g = (int) $matches[2];
-		$b = (int) $matches[3];
-
-		foreach ([$r, $g, $b] as $component) {
-			if ($component < 0 || $component > 255) {
-				throw new \InvalidArgumentException("Les composantes RGB doivent être comprises entre 0 et 255 : '{$rgb}'.");
-			}
-		}
-
-		$normalized = "rgb({$r}, {$g}, {$b})";
-
 		foreach (self::cases() as $case) {
-			if ($case->getRgb() === $normalized) {
+			if ($case->getRgb() === $rgb) {
 				return $case;
 			}
 		}
@@ -488,54 +451,19 @@ enum Color: int
 
 	public static function fromRgba(string $rgba): self
 	{
-		if (!preg_match('/^rgba\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d+(?:\.\d+)?)\s*\)$/', $rgba, $matches)) {
-			throw new \InvalidArgumentException("Format RGBA invalide : '{$rgba}'.");
+		foreach (self::cases() as $case) {
+			if ($case->getRgba() === $rgba) {
+				return $case;
+			}
 		}
 
-		$r = (int) $matches[1];
-		$g = (int) $matches[2];
-		$b = (int) $matches[3];
-		$alpha = (float) $matches[4];
-
-		if ($r < 0 || $r > 255 || $g < 0 || $g > 255 || $b < 0 || $b > 255) {
-			throw new \InvalidArgumentException(
-				"Composantes RGB invalides dans le code RGBA '{$rgba}'. Les valeurs doivent être comprises entre 0 et 255."
-			);
-		}
-
-		if ($alpha < 0.0 || $alpha > 1.0) {
-			throw new \InvalidArgumentException("Valeur alpha invalide (doit être comprise entre 0 et 1) dans '{$rgba}'.");
-		}
-
-		return self::fromRgb("rgb({$r}, {$g}, {$b})");
+		throw new \ValueError("Aucune couleur trouvée avec le code RGBA '{$rgba}'.");
 	}
 
 	public static function fromHsl(string $hsl): self
 	{
-		if (!preg_match('/^hsl\(\s*(\d{1,3})\s*,\s*(\d{1,3})%\s*,\s*(\d{1,3})%\s*\)$/', $hsl, $matches)) {
-			throw new \InvalidArgumentException("Format HSL invalide : '{$hsl}'.");
-		}
-
-		$h = (int) $matches[1];
-		$s = (int) $matches[2];
-		$l = (int) $matches[3];
-
-		if ($h > 360) {
-			throw new \InvalidArgumentException("La teinte (H) doit être comprise entre 0 et 360 dans '{$hsl}'.");
-		}
-
-		if ($s > 100) {
-			throw new \InvalidArgumentException("La saturation (S) doit être comprise entre 0 et 100 dans '{$hsl}'.");
-		}
-
-		if ($l > 100) {
-			throw new \InvalidArgumentException("La luminosité (L) doit être comprise entre 0 et 100 dans '{$hsl}'.");
-		}
-
-		$normalized = "hsl({$h}, {$s}%, {$l}%)";
-
 		foreach (self::cases() as $case) {
-			if ($case->getHsl() === $normalized) {
+			if ($case->getHsl() === $hsl) {
 				return $case;
 			}
 		}
@@ -545,10 +473,6 @@ enum Color: int
 
 	public static function fromOklch(string $oklch): self
 	{
-		if (!preg_match('/^oklch\(\d+(?:\.\d+)? \d+(?:\.\d+)? \d+(?:\.\d+)?\)$/', $oklch)) {
-			throw new \InvalidArgumentException("Format OKLCH invalide : '{$oklch}'.");
-		}
-
 		foreach (self::cases() as $case) {
 			if ($case->getOklch() === $oklch) {
 				return $case;
@@ -567,15 +491,6 @@ enum Color: int
 	{
 		try {
 			return self::fromName($name);
-		} catch (\ValueError) {
-			return null;
-		}
-	}
-
-	public static function tryFromCode(int $code): ?self
-	{
-		try {
-			return self::fromCode($code);
 		} catch (\ValueError) {
 			return null;
 		}
@@ -852,17 +767,17 @@ enum Color: int
 			self::Pink900 => 'Rose passion',
 			self::Pink950 => 'Rose envoûtante',
 
-			self::Rose50 => 'Rose perle',
-			self::Rose100 => 'Rose fraîche',
-			self::Rose200 => 'Rose pétale',
-			self::Rose300 => 'Rose lumineuse',
-			self::Rose400 => 'Rose vive',
-			self::Rose500 => 'Rose signature',
-			self::Rose600 => 'Rose carmin',
-			self::Rose700 => 'Rose intense',
-			self::Rose800 => 'Rose profonde',
-			self::Rose900 => 'Rose royale',
-			self::Rose950 => 'Rose nocturne',
+			self::Gold50 => 'Or pâle',
+			self::Gold100 => 'Or doux',
+			self::Gold200 => 'Or lumineux',
+			self::Gold300 => 'Or éclatant',
+			self::Gold400 => 'Or riche',
+			self::Gold500 => 'Or signature',
+			self::Gold600 => 'Or intense',
+			self::Gold700 => 'Or royal',
+			self::Gold800 => 'Or profond',
+			self::Gold900 => 'Or impérial',
+			self::Gold950 => 'Or nocturne',
 
 			self::Slate50 => 'Ardoise brume',
 			self::Slate100 => 'Ardoise claire',
@@ -1246,17 +1161,17 @@ enum Color: int
 			self::Pink900 => '#831843',
 			self::Pink950 => '#500724',
 
-			self::Rose50 => '#fff1f2',
-			self::Rose100 => '#ffe4e6',
-			self::Rose200 => '#fecdd3',
-			self::Rose300 => '#fda4af',
-			self::Rose400 => '#fb7185',
-			self::Rose500 => '#f43f5e',
-			self::Rose600 => '#e11d48',
-			self::Rose700 => '#be123c',
-			self::Rose800 => '#9f1239',
-			self::Rose900 => '#881337',
-			self::Rose950 => '#4c0519',
+			self::Gold50 => '#fdfbf0',
+			self::Gold100 => '#faf5d3',
+			self::Gold200 => '#f4e99f',
+			self::Gold300 => '#edda64',
+			self::Gold400 => '#e4c832',
+			self::Gold500 => '#d4a914',
+			self::Gold600 => '#b08910',
+			self::Gold700 => '#8a690d',
+			self::Gold800 => '#664e0d',
+			self::Gold900 => '#4d3a0e',
+			self::Gold950 => '#291e06',
 
 			self::Slate50 => '#f8fafc',
 			self::Slate100 => '#f1f5f9',
@@ -1282,65 +1197,65 @@ enum Color: int
 			self::Gray900 => '#111827',
 			self::Gray950 => '#030712',
 
-			self::Zinc50 => '#fafafa',
-			self::Zinc100 => '#f4f4f5',
-			self::Zinc200 => '#e4e4e7',
-			self::Zinc300 => '#d4d4d8',
-			self::Zinc400 => '#a1a1aa',
-			self::Zinc500 => '#71717a',
-			self::Zinc600 => '#52525b',
-			self::Zinc700 => '#3f3f46',
-			self::Zinc800 => '#27272a',
-			self::Zinc900 => '#18181b',
-			self::Zinc950 => '#09090b',
+			self::Zinc50 => '#f8f8fb',
+			self::Zinc100 => '#f0f0f5',
+			self::Zinc200 => '#e2e2ec',
+			self::Zinc300 => '#c8c8dc',
+			self::Zinc400 => '#9898b8',
+			self::Zinc500 => '#6a6a96',
+			self::Zinc600 => '#505078',
+			self::Zinc700 => '#3c3c5c',
+			self::Zinc800 => '#262640',
+			self::Zinc900 => '#181828',
+			self::Zinc950 => '#0a0a18',
 
 			self::Neutral50 => '#fafafa',
 			self::Neutral100 => '#f5f5f5',
-			self::Neutral200 => '#e5e5e5',
+			self::Neutral200 => '#e8e8e8',
 			self::Neutral300 => '#d4d4d4',
 			self::Neutral400 => '#a3a3a3',
 			self::Neutral500 => '#737373',
 			self::Neutral600 => '#525252',
-			self::Neutral700 => '#404040',
+			self::Neutral700 => '#3d3d3d',
 			self::Neutral800 => '#262626',
 			self::Neutral900 => '#171717',
 			self::Neutral950 => '#0a0a0a',
 
-			self::Stone50 => '#fafaf9',
-			self::Stone100 => '#f5f5f4',
-			self::Stone200 => '#e7e5e4',
-			self::Stone300 => '#d6d3d1',
-			self::Stone400 => '#a8a29e',
-			self::Stone500 => '#78716c',
-			self::Stone600 => '#57534e',
-			self::Stone700 => '#44403c',
-			self::Stone800 => '#292524',
-			self::Stone900 => '#1c1917',
-			self::Stone950 => '#0c0a09',
+			self::Stone50 => '#f9f9f7',
+			self::Stone100 => '#f2f2ef',
+			self::Stone200 => '#e5e4e0',
+			self::Stone300 => '#d2d0ca',
+			self::Stone400 => '#a8a59d',
+			self::Stone500 => '#7a766d',
+			self::Stone600 => '#5c5850',
+			self::Stone700 => '#46433c',
+			self::Stone800 => '#2c2a25',
+			self::Stone900 => '#1e1c18',
+			self::Stone950 => '#0e0d0b',
 
-			self::Taupe50 => '#fbfaf9',
-			self::Taupe100 => '#f3f1f1',
-			self::Taupe200 => '#e8e4e3',
-			self::Taupe300 => '#d8d2d0',
-			self::Taupe400 => '#aba09c',
-			self::Taupe500 => '#7c6d67',
-			self::Taupe600 => '#5b4f4b',
-			self::Taupe700 => '#473c39',
-			self::Taupe800 => '#2b2422',
-			self::Taupe900 => '#1d1816',
-			self::Taupe950 => '#0c0a09',
+			self::Taupe50 => '#faf7f5',
+			self::Taupe100 => '#f2ece8',
+			self::Taupe200 => '#e5d9d2',
+			self::Taupe300 => '#d4c0b5',
+			self::Taupe400 => '#b0927f',
+			self::Taupe500 => '#8c6b56',
+			self::Taupe600 => '#6e5040',
+			self::Taupe700 => '#543d30',
+			self::Taupe800 => '#362720',
+			self::Taupe900 => '#251b16',
+			self::Taupe950 => '#130d0b',
 
-			self::Mauve50 => '#fafafa',
-			self::Mauve100 => '#f3f1f3',
-			self::Mauve200 => '#e7e4e7',
-			self::Mauve300 => '#d7d0d7',
-			self::Mauve400 => '#a89ea9',
-			self::Mauve500 => '#79697b',
-			self::Mauve600 => '#594c5b',
-			self::Mauve700 => '#463947',
-			self::Mauve800 => '#2a212c',
-			self::Mauve900 => '#1d161e',
-			self::Mauve950 => '#0c090c',
+			self::Mauve50 => '#faf7fb',
+			self::Mauve100 => '#f3ecf6',
+			self::Mauve200 => '#e6d8ed',
+			self::Mauve300 => '#d3bade',
+			self::Mauve400 => '#b48dc4',
+			self::Mauve500 => '#8f61a3',
+			self::Mauve600 => '#6e4880',
+			self::Mauve700 => '#553863',
+			self::Mauve800 => '#352340',
+			self::Mauve900 => '#24182c',
+			self::Mauve950 => '#120c16',
 
 			self::Mist50 => '#f9fbfb',
 			self::Mist100 => '#f1f3f3',
@@ -1447,7 +1362,7 @@ enum Color: int
 		return Convert::hex2rgb($this->getHex());
 	}
 
-	public function getRgba(float $alpha = Convert::DEFAULT_ALPHA): ?string
+	public function getRgba(float $alpha = 1.0): ?string
 	{
 		return Convert::hex2rgba($this->getHex(), $alpha);
 	}
@@ -1462,7 +1377,12 @@ enum Color: int
 		return Convert::hex2oklch($this->getHex());
 	}
 
-	public function toArray(float $alpha = Convert::DEFAULT_ALPHA): array
+	public function getCmyk(): ?string
+	{
+		return Convert::hex2cmyk($this->getHex());
+	}
+
+	public function toArray(float $alpha = 1.0): array
 	{
 		return [
 			'id' => $this->getId(),
@@ -1474,6 +1394,7 @@ enum Color: int
 			'rgba' => $this->getRgba($alpha),
 			'hsl' => $this->getHsl(),
 			'oklch' => $this->getOklch(),
+			'cmyk' => $this->getCmyk(),
 		];
 	}
 }
