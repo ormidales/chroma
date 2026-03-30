@@ -15,20 +15,36 @@ use Pyreweb\Chroma\Service\Convert;
  */
 class ConvertTest extends TestCase
 {
-	public function testHex2CmykBlack(): void
+	public function testHex2RgbBlack(): void
 	{
-		$expected = 'cmyk(0%, 0%, 0%, 100%)';
+		$expected = 'rgb(0, 0, 0)';
 
-		$this->assertSame($expected, Convert::hex2cmyk('#000000'));
-		$this->assertSame($expected, Convert::hex2cmyk(Color::Black->getHex()));
+		$this->assertSame($expected, Convert::hex2rgb('#000000'));
+		$this->assertSame($expected, Convert::hex2rgb(Color::Black->getHex()));
 	}
 
-	public function testHex2CmykWhite(): void
+	public function testHex2RgbWhite(): void
 	{
-		$expected = 'cmyk(0%, 0%, 0%, 0%)';
+		$expected = 'rgb(255, 255, 255)';
 
-		$this->assertSame($expected, Convert::hex2cmyk('#FFFFFF'));
-		$this->assertSame($expected, Convert::hex2cmyk(Color::White->getHex()));
+		$this->assertSame($expected, Convert::hex2rgb('#FFFFFF'));
+		$this->assertSame($expected, Convert::hex2rgb(Color::White->getHex()));
+	}
+
+	public function testHex2RgbaBlack(): void
+	{
+		$expected = 'rgba(0, 0, 0, 1)';
+
+		$this->assertSame($expected, Convert::hex2rgba('#000000'));
+		$this->assertSame($expected, Convert::hex2rgba(Color::Black->getHex()));
+	}
+
+	public function testHex2RgbaWhite(): void
+	{
+		$expected = 'rgba(255, 255, 255, 1)';
+
+		$this->assertSame($expected, Convert::hex2rgba('#FFFFFF'));
+		$this->assertSame($expected, Convert::hex2rgba(Color::White->getHex()));
 	}
 
 	public function testHex2HslBlack(): void
@@ -63,35 +79,19 @@ class ConvertTest extends TestCase
 		$this->assertSame($expected, Convert::hex2oklch(Color::White->getHex()));
 	}
 
-	public function testHex2RgbaBlack(): void
+	public function testHex2CmykBlack(): void
 	{
-		$expected = 'rgba(0, 0, 0, 1)';
+		$expected = 'cmyk(0%, 0%, 0%, 100%)';
 
-		$this->assertSame($expected, Convert::hex2rgba('#000000'));
-		$this->assertSame($expected, Convert::hex2rgba(Color::Black->getHex()));
+		$this->assertSame($expected, Convert::hex2cmyk('#000000'));
+		$this->assertSame($expected, Convert::hex2cmyk(Color::Black->getHex()));
 	}
 
-	public function testHex2RgbaWhite(): void
+	public function testHex2CmykWhite(): void
 	{
-		$expected = 'rgba(255, 255, 255, 1)';
+		$expected = 'cmyk(0%, 0%, 0%, 0%)';
 
-		$this->assertSame($expected, Convert::hex2rgba('#FFFFFF'));
-		$this->assertSame($expected, Convert::hex2rgba(Color::White->getHex()));
-	}
-
-	public function testHex2RgbBlack(): void
-	{
-		$expected = 'rgb(0, 0, 0)';
-
-		$this->assertSame($expected, Convert::hex2rgb('#000000'));
-		$this->assertSame($expected, Convert::hex2rgb(Color::Black->getHex()));
-	}
-
-	public function testHex2RgbWhite(): void
-	{
-		$expected = 'rgb(255, 255, 255)';
-
-		$this->assertSame($expected, Convert::hex2rgb('#FFFFFF'));
-		$this->assertSame($expected, Convert::hex2rgb(Color::White->getHex()));
+		$this->assertSame($expected, Convert::hex2cmyk('#FFFFFF'));
+		$this->assertSame($expected, Convert::hex2cmyk(Color::White->getHex()));
 	}
 }
