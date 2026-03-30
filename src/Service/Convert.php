@@ -2,7 +2,8 @@
 
 namespace Pyreweb\Chroma\Service;
 
-use Pyreweb\Chroma\Enum\Color;
+use Pyreweb\Chroma\Service\Colorimetry;
+use Pyreweb\Chroma\Service\Parse;
 
 /**
  * @author Hugo Doueil <hugo@pyreweb.com>
@@ -10,16 +11,8 @@ use Pyreweb\Chroma\Enum\Color;
  */
 class Convert
 {
-	private const HEX_SHORT_LENGTH = 3;
-	private const HEX_FULL_LENGTH = 6;
 	private const CHANNEL_MAX = 255;
 	private const PERCENT_MAX = 100;
-
-	private const SRGB_LINEARIZE_THRESHOLD = 0.04045;
-	private const SRGB_LINEARIZE_DIVISOR = 12.92;
-	private const SRGB_LINEARIZE_OFFSET = 0.055;
-	private const SRGB_LINEARIZE_DIVISOR2 = 1.055;
-	private const SRGB_LINEARIZE_GAMMA = 2.4;
 
 	private const OKLMS_R_L = 0.4122214708;
 	private const OKLMS_R_M = 0.2119034982;
@@ -41,25 +34,23 @@ class Convert
 	private const OKLAB_B_M = 0.7827717662;
 	private const OKLAB_B_S = -0.8086757660;
 
-	private const CBRT_EXPONENT = 1.0 / 3.0;
-
 	public static function hex2rgb(string $hex): string
 	{
-		[$r, $g, $b] = self::parseHex($hex);
+		[$r, $g, $b] = Parse::hex($hex);
 
 		return "rgb($r, $g, $b)";
 	}
 
 	public static function hex2rgba(string $hex, float $alpha = 1.0): string
 	{
-		[$r, $g, $b] = self::parseHex($hex);
+		[$r, $g, $b] = Parse::hex($hex);
 
 		return "rgba($r, $g, $b, $alpha)";
 	}
 
 	public static function hex2hsl(string $hex): string
 	{
-		[$r, $g, $b] = self::parseHex($hex);
+		[$r, $g, $b] = Parse::hex($hex);
 
 		$r /= self::CHANNEL_MAX;
 		$g /= self::CHANNEL_MAX;
@@ -92,19 +83,19 @@ class Convert
 
 	public static function hex2oklch(string $hex): string
 	{
-		[$r, $g, $b] = self::parseHex($hex);
+		[$r, $g, $b] = Parse::hex($hex);
 
-		$r = self::linearize($r / self::CHANNEL_MAX);
-		$g = self::linearize($g / self::CHANNEL_MAX);
-		$b = self::linearize($b / self::CHANNEL_MAX);
+		$r = Colorimetry::linearize($r / self::CHANNEL_MAX);
+		$g = Colorimetry::linearize($g / self::CHANNEL_MAX);
+		$b = Colorimetry::linearize($b / self::CHANNEL_MAX);
 
 		$lms_l = self::OKLMS_R_L * $r + self::OKLMS_G_L * $g + self::OKLMS_B_L * $b;
 		$lms_m = self::OKLMS_R_M * $r + self::OKLMS_G_M * $g + self::OKLMS_B_M * $b;
 		$lms_s = self::OKLMS_R_S * $r + self::OKLMS_G_S * $g + self::OKLMS_B_S * $b;
 
-		$lms_l = self::cbrt($lms_l);
-		$lms_m = self::cbrt($lms_m);
-		$lms_s = self::cbrt($lms_s);
+		$lms_l = Colorimetry::cbrt($lms_l);
+		$lms_m = Colorimetry::cbrt($lms_m);
+		$lms_s = Colorimetry::cbrt($lms_s);
 
 		$L = self::OKLAB_L_L * $lms_l + self::OKLAB_L_M * $lms_m + self::OKLAB_L_S * $lms_s;
 		$a = self::OKLAB_A_L * $lms_l + self::OKLAB_A_M * $lms_m + self::OKLAB_A_S * $lms_s;
@@ -118,7 +109,7 @@ class Convert
 
 	public static function hex2cmyk(string $hex): string
 	{
-		[$r, $g, $b] = self::parseHex($hex);
+		[$r, $g, $b] = Parse::hex($hex);
 
 		$r /= self::CHANNEL_MAX;
 		$g /= self::CHANNEL_MAX;
@@ -135,38 +126,5 @@ class Convert
 		$y = (1 - $b - $k) / (1 - $k);
 
 		return "cmyk(" . round($c * self::PERCENT_MAX, 2) . "%, " . round($m * self::PERCENT_MAX, 2) . "%, " . round($y * self::PERCENT_MAX, 2) . "%, " . round($k * self::PERCENT_MAX, 2) . "%)";
-	}
-
-	private static function parseHex(string $hex): array
-	{
-		$hex = ltrim($hex, '#');
-
-		if (strlen($hex) === self::HEX_SHORT_LENGTH) {
-			$hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
-		}
-
-		return [
-			hexdec(substr($hex, 0, 2)),
-			hexdec(substr($hex, 2, 2)),
-			hexdec(substr($hex, 4, 2)),
-		];
-	}
-
-	private static function linearize(float $value): float
-	{
-		return $value <= self::SRGB_LINEARIZE_THRESHOLD
-			? $value / self::SRGB_LINEARIZE_DIVISOR
-			: (($value + self::SRGB_LINEARIZE_OFFSET) / self::SRGB_LINEARIZE_DIVISOR2) ** self::SRGB_LINEARIZE_GAMMA;
-	}
-
-	private static function cbrt(float $value): float
-	{
-		if ($value === 0.0) {
-			return 0.0;
-		}
-
-		return $value < 0
-			? -((-$value) ** self::CBRT_EXPONENT)
-			: $value ** self::CBRT_EXPONENT;
 	}
 }
