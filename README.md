@@ -32,7 +32,9 @@ $color->getRgba(0.5);
 $color->getHsl();
 $color->getOklch();
 $color->getCmyk();
+$color->toString();
 $color->toArray();
+$color->toJson();
 ```
 
 ### Itérer sur toutes les couleurs
@@ -41,7 +43,7 @@ $color->toArray();
 use Pyreweb\Chroma\Enum\Color;
 
 foreach (Color::cases() as $color) {
-	echo $color->getTitle() . ' : ' . $color->getHex() . PHP_EOL;
+	echo $color->toString();
 }
 ```
 
