@@ -686,4 +686,19 @@ class ColorTest extends TestCase
 	{
 		$this->assertSame('rgba(239, 68, 68, 1)', Color::Red500->getRgba());
 	}
+
+	public function testGetHslBlack(): void
+	{
+		$this->assertSame('hsl(0, 0%, 0%)', Color::Black->getHsl());
+	}
+
+	public function testGetHslWhite(): void
+	{
+		$this->assertSame('hsl(0, 0%, 100%)', Color::White->getHsl());
+	}
+
+	public function testGetHslRed500(): void
+	{
+		$this->assertSame('hsl(0, 84.24%, 60.2%)', Color::Red500->getHsl());
+	}
 }
