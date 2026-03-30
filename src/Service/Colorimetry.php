@@ -8,13 +8,13 @@ namespace Pyreweb\Chroma\Service;
  */
 class Colorimetry
 {
-	private const SRGB_LINEARIZE_THRESHOLD = 0.04045;
-	private const SRGB_LINEARIZE_DIVISOR = 12.92;
-	private const SRGB_LINEARIZE_OFFSET = 0.055;
-	private const SRGB_LINEARIZE_DIVISOR2 = 1.055;
-	private const SRGB_LINEARIZE_GAMMA = 2.4;
+	public const SRGB_LINEARIZE_THRESHOLD = 0.04045;
+	public const SRGB_LINEARIZE_DIVISOR = 12.92;
+	public const SRGB_LINEARIZE_OFFSET = 0.055;
+	public const SRGB_LINEARIZE_DIVISOR2 = 1.055;
+	public const SRGB_LINEARIZE_GAMMA = 2.4;
 
-	private const CBRT_EXPONENT = 1.0 / 3.0;
+	public const CBRT_EXPONENT = 1.0 / 3.0;
 
 	public static function linearize(float $value): float
 	{
