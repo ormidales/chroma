@@ -593,4 +593,26 @@ class ColorTest extends TestCase
 
 		Color::fromId(999999)->getId();
 	}
+
+	public function testGetNameBlack(): void
+	{
+		$this->assertSame('Black', Color::Black->getName());
+	}
+
+	public function testGetNameWhite(): void
+	{
+		$this->assertSame('White', Color::White->getName());
+	}
+
+	public function testGetNameRed500(): void
+	{
+		$this->assertSame('Red500', Color::Red500->getName());
+	}
+
+	public function testGetNameInvalid(): void
+	{
+		$this->expectException(\ValueError::class);
+
+		Color::fromId(999999)->getName();
+	}
 }
