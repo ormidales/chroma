@@ -7,6 +7,7 @@ namespace Pyreweb\Chroma\Tests\Service;
 use PHPUnit\Framework\TestCase;
 
 use Pyreweb\Chroma\Enum\Color;
+use Pyreweb\Chroma\Service\Convert;
 use Pyreweb\Chroma\Service\Parse;
 
 /**
@@ -17,11 +18,57 @@ class ParseTest extends TestCase
 {
 	public function testHexBlack(): void
 	{
-		$this->assertSame([0, 0, 0], Parse::hex(Color::Black->getHex()));
+		$expected = [0, 0, 0];
+
+		$this->assertSame($expected, Parse::hex('#000000'));
+		$this->assertSame($expected, Parse::hex(Color::Black->getHex()));
 	}
 
 	public function testHexWhite(): void
 	{
-		$this->assertSame([255, 255, 255], Parse::hex(Color::White->getHex()));
+		$expected = [255, 255, 255];
+
+		$this->assertSame($expected, Parse::hex('#FFFFFF'));
+		$this->assertSame($expected, Parse::hex(Color::White->getHex()));
+	}
+
+	public function testRgbBlack(): void
+	{
+		$expected = [0, 0, 0];
+
+		$this->assertSame($expected, Parse::rgb('rgb(0, 0, 0)'));
+		$this->assertSame($expected, Parse::rgb(Color::Black->getRgb()));
+		$this->assertSame($expected, Parse::rgb(Convert::hex2rgb('#000000')));
+		$this->assertSame($expected, Parse::rgb(Convert::hex2rgb(Color::Black->getHex())));
+	}
+
+	public function testRgbWhite(): void
+	{
+		$expected = [255, 255, 255];
+
+		$this->assertSame($expected, Parse::rgb('rgb(255, 255, 255)'));
+		$this->assertSame($expected, Parse::rgb(Color::White->getRgb()));
+		$this->assertSame($expected, Parse::rgb(Convert::hex2rgb('#FFFFFF')));
+		$this->assertSame($expected, Parse::rgb(Convert::hex2rgb(Color::White->getHex())));
+	}
+
+	public function testRgbaBlack(): void
+	{
+		$expected = [0, 0, 0, 1.0];
+
+		$this->assertSame($expected, Parse::rgba('rgba(0, 0, 0, 1.0)'));
+		$this->assertSame($expected, Parse::rgba(Color::Black->getRgba()));
+		$this->assertSame($expected, Parse::rgba(Convert::hex2rgba('#000000')));
+		$this->assertSame($expected, Parse::rgba(Convert::hex2rgba(Color::Black->getHex())));
+	}
+
+	public function testRgbaWhite(): void
+	{
+		$expected = [255, 255, 255, 1.0];
+
+		$this->assertSame($expected, Parse::rgba('rgba(255, 255, 255, 1.0)'));
+		$this->assertSame($expected, Parse::rgba(Color::White->getRgba()));
+		$this->assertSame($expected, Parse::rgba(Convert::hex2rgba('#FFFFFF')));
+		$this->assertSame($expected, Parse::rgba(Convert::hex2rgba(Color::White->getHex())));
 	}
 }
