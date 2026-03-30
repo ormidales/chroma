@@ -99,6 +99,11 @@ class Convert
 		return self::rgb2oklch(self::hex2rgb($hex));
 	}
 
+	public static function hex2cmyk(string $hex): string
+	{
+		return self::rgb2cmyk(self::hex2rgb($hex));
+	}
+
 	public static function rgb2rgba(string $rgb, float $alpha = self::DEFAULT_ALPHA): string
 	{
 		Validate::alpha($alpha);
@@ -193,5 +198,30 @@ class Convert
 		$h = round($h, self::OKLCH_HUE_PRECISION);
 
 		return Validate::oklch("oklch({$L} {$C} {$h})");
+	}
+
+	public static function rgb2cmyk(string $rgb): string
+	{
+		[$r, $g, $b] = Parse::rgb($rgb);
+
+		if ($r == self::MIN_COMPONENT_VALUE && $g == self::MIN_COMPONENT_VALUE && $b == self::MIN_COMPONENT_VALUE) {
+			return Validate::cmyk("cmyk(0%, 0%, 0%, 100%)");
+		}
+
+		$r /= self::RGB_CHANNEL_MAX;
+		$g /= self::RGB_CHANNEL_MAX;
+		$b /= self::RGB_CHANNEL_MAX;
+
+		$k = 1 - max($r, $g, $b);
+		$c = (1 - $r - $k) / (1 - $k);
+		$m = (1 - $g - $k) / (1 - $k);
+		$y = (1 - $b - $k) / (1 - $k);
+
+		$c = round($c * self::PERCENTAGE_FACTOR);
+		$m = round($m * self::PERCENTAGE_FACTOR);
+		$y = round($y * self::PERCENTAGE_FACTOR);
+		$k = round($k * self::PERCENTAGE_FACTOR);
+
+		return Validate::cmyk("cmyk({$c}%, {$m}%, {$y}%, {$k}%)");
 	}
 }
