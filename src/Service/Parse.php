@@ -26,4 +26,27 @@ class Parse
 			hexdec(substr($hex, 4, 2)),
 		];
 	}
+
+	public static function rgb(string $rgb): array
+	{
+		preg_match('/rgba?\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})(?:,\s*(\d*\.?\d+))?\)/', $rgb, $matches);
+
+		return [
+			(int) $matches[1],
+			(int) $matches[2],
+			(int) $matches[3],
+		];
+	}
+
+	public static function rgba(string $rgba): array
+	{
+		preg_match('/rgba?\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})(?:,\s*(\d*\.?\d+))?\)/', $rgba, $matches);
+
+		return [
+			(int) $matches[1],
+			(int) $matches[2],
+			(int) $matches[3],
+			isset($matches[4]) ? (float) $matches[4] : 1.0,
+		];
+	}
 }
