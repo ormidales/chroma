@@ -1426,4 +1426,9 @@ enum Color: int
 			'cmyk' => $this->getCmyk(),
 		];
 	}
+
+	public function toJson(float $alpha = 1.0): string
+	{
+		return json_encode($this->toArray($alpha), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+	}
 }

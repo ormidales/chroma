@@ -872,4 +872,85 @@ class ColorTest extends TestCase
 
 		$this->assertSame($expected, Color::Red500->toArray());
 	}
+
+	public function testToJsonBlack(): void
+	{
+		$expected = json_encode([
+			'id' => 1,
+			'name' => 'Black',
+			'code' => 0,
+			'title' => 'Noir',
+			'hex' => [
+				'raw' => '#000000',
+				'parsed' => [0, 0, 0],
+			],
+			'rgb' => [
+				'raw' => 'rgb(0, 0, 0)',
+				'parsed' => [0, 0, 0],
+			],
+			'rgba' => [
+				'raw' => 'rgba(0, 0, 0, 1)',
+				'parsed' => [0, 0, 0, 1.0],
+			],
+			'hsl' => 'hsl(0, 0%, 0%)',
+			'oklch' => 'oklch(0%, 0%, 0)',
+			'cmyk' => 'cmyk(0%, 0%, 0%, 100%)',
+		], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+		$this->assertSame($expected, Color::Black->toJson());
+	}
+
+	public function testToJsonWhite(): void
+	{
+		$expected = json_encode([
+			'id' => 2,
+			'name' => 'White',
+			'code' => 0,
+			'title' => 'Blanc',
+			'hex' => [
+				'raw' => '#ffffff',
+				'parsed' => [255, 255, 255],
+			],
+			'rgb' => [
+				'raw' => 'rgb(255, 255, 255)',
+				'parsed' => [255, 255, 255],
+			],
+			'rgba' => [
+				'raw' => 'rgba(255, 255, 255, 1)',
+				'parsed' => [255, 255, 255, 1.0],
+			],
+			'hsl' => 'hsl(0, 0%, 100%)',
+			'oklch' => 'oklch(100%, 0%, 0)',
+			'cmyk' => 'cmyk(0%, 0%, 0%, 0%)',
+		], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+		$this->assertSame($expected, Color::White->toJson());
+	}
+
+	public function testToJsonRed500(): void
+	{
+		$expected = json_encode([
+			'id' => 105,
+			'name' => 'Red500',
+			'code' => 500,
+			'title' => 'Rouge passion',
+			'hex' => [
+				'raw' => '#ef4444',
+				'parsed' => [239, 68, 68],
+			],
+			'rgb' => [
+				'raw' => 'rgb(239, 68, 68)',
+				'parsed' => [239, 68, 68],
+			],
+			'rgba' => [
+				'raw' => 'rgba(239, 68, 68, 1)',
+				'parsed' => [239, 68, 68, 1.0],
+			],
+			'hsl' => 'hsl(0, 84.24%, 60.2%)',
+			'oklch' => 'oklch(63.68%, 20.78%, 25.33132777693)',
+			'cmyk' => 'cmyk(0%, 71.55%, 71.55%, 6.27%)',
+		], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+		$this->assertSame($expected, Color::Red500->toJson());
+	}
 }
