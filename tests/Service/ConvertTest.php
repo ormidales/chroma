@@ -31,6 +31,14 @@ class ConvertTest extends TestCase
 		$this->assertSame($expected, Convert::hex2rgb(Color::White->getHex()));
 	}
 
+	public function testHex2RgbRed500(): void
+	{
+		$expected = 'rgb(239, 68, 68)';
+
+		$this->assertSame($expected, Convert::hex2rgb('#ef4444'));
+		$this->assertSame($expected, Convert::hex2rgb(Color::Red500->getHex()));
+	}
+
 	public function testHex2RgbaBlack(): void
 	{
 		$expected = 'rgba(0, 0, 0, 1)';
