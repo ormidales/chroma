@@ -126,6 +126,17 @@ Convert::hexToCmyk('#ef4444');
 Convert::hexToCmyk(Color::Red500->getHex());
 ```
 
+## Ajouter une couleur personnalisée
+
+```php
+use Pyreweb\Chroma\Service\DynamicColor;
+
+$color1 = DynamicColor::from('#A044BA');
+$color2 = DynamicColor::from('#794E2A', 5623);
+$color3 = DynamicColor::from('#413CDC', 8946, 'Color3');
+$color4 = DynamicColor::from('#79FF2B', 9462, 'Color4', 'Couleur n°4');
+```
+
 ## Palettes disponibles
 
 | Palette      | Cases disponibles                          |
