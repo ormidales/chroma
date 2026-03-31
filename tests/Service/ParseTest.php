@@ -38,8 +38,8 @@ class ParseTest extends TestCase
 
 		$this->assertSame($expected, Parse::rgb('rgb(0, 0, 0)'));
 		$this->assertSame($expected, Parse::rgb(Color::Black->getRgb()));
-		$this->assertSame($expected, Parse::rgb(Convert::hex2rgb('#000000')));
-		$this->assertSame($expected, Parse::rgb(Convert::hex2rgb(Color::Black->getHex())));
+		$this->assertSame($expected, Parse::rgb(Convert::hexToRgb('#000000')));
+		$this->assertSame($expected, Parse::rgb(Convert::hexToRgb(Color::Black->getHex())));
 	}
 
 	public function testRgbWhite(): void
@@ -48,8 +48,8 @@ class ParseTest extends TestCase
 
 		$this->assertSame($expected, Parse::rgb('rgb(255, 255, 255)'));
 		$this->assertSame($expected, Parse::rgb(Color::White->getRgb()));
-		$this->assertSame($expected, Parse::rgb(Convert::hex2rgb('#FFFFFF')));
-		$this->assertSame($expected, Parse::rgb(Convert::hex2rgb(Color::White->getHex())));
+		$this->assertSame($expected, Parse::rgb(Convert::hexToRgb('#FFFFFF')));
+		$this->assertSame($expected, Parse::rgb(Convert::hexToRgb(Color::White->getHex())));
 	}
 
 	public function testRgbaBlack(): void
@@ -58,8 +58,8 @@ class ParseTest extends TestCase
 
 		$this->assertSame($expected, Parse::rgba('rgba(0, 0, 0, 1.0)'));
 		$this->assertSame($expected, Parse::rgba(Color::Black->getRgba()));
-		$this->assertSame($expected, Parse::rgba(Convert::hex2rgba('#000000')));
-		$this->assertSame($expected, Parse::rgba(Convert::hex2rgba(Color::Black->getHex())));
+		$this->assertSame($expected, Parse::rgba(Convert::hexToRgba('#000000')));
+		$this->assertSame($expected, Parse::rgba(Convert::hexToRgba(Color::Black->getHex())));
 	}
 
 	public function testRgbaWhite(): void
@@ -68,7 +68,7 @@ class ParseTest extends TestCase
 
 		$this->assertSame($expected, Parse::rgba('rgba(255, 255, 255, 1.0)'));
 		$this->assertSame($expected, Parse::rgba(Color::White->getRgba()));
-		$this->assertSame($expected, Parse::rgba(Convert::hex2rgba('#FFFFFF')));
-		$this->assertSame($expected, Parse::rgba(Convert::hex2rgba(Color::White->getHex())));
+		$this->assertSame($expected, Parse::rgba(Convert::hexToRgba('#FFFFFF')));
+		$this->assertSame($expected, Parse::rgba(Convert::hexToRgba(Color::White->getHex())));
 	}
 }
