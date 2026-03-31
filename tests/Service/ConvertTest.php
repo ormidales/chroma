@@ -38,163 +38,190 @@ class ConvertTest extends TestCase
 
 	public function testHexBlack(): void
 	{
-		$expected = [
-			'rgb' => self::BLACK_RGB,
-			'rgba' => self::BLACK_RGBA,
-			'hsl' => self::BLACK_HSL,
-			'oklch' => self::BLACK_OKLCH,
-			'cmyk' => self::BLACK_CMYK,
-		];
+		$result1 = Convert::hex(self::BLACK_HEX);
+		$result2 = Convert::hex(Color::Black->getHex());
 
-		$this->assertSame($expected, Convert::hex(self::BLACK_HEX));
-		$this->assertSame($expected, Convert::hex(Color::Black->getHex()));
+		$this->assertSame(self::BLACK_RGB, $result1['rgb']);
+		$this->assertSame(self::BLACK_RGBA, $result1['rgba']);
+		$this->assertSame(self::BLACK_HSL, $result1['hsl']);
+		$this->assertSame(self::BLACK_OKLCH, $result1['oklch']);
+		$this->assertSame(self::BLACK_CMYK, $result1['cmyk']);
+
+		$this->assertSame(self::BLACK_RGB, $result2['rgb']);
+		$this->assertSame(self::BLACK_RGBA, $result2['rgba']);
+		$this->assertSame(self::BLACK_HSL, $result2['hsl']);
+		$this->assertSame(self::BLACK_OKLCH, $result2['oklch']);
+		$this->assertSame(self::BLACK_CMYK, $result2['cmyk']);
 	}
 
 	public function testHexWhite(): void
 	{
-		$expected = [
-			'rgb' => self::WHITE_RGB,
-			'rgba' => self::WHITE_RGBA,
-			'hsl' => self::WHITE_HSL,
-			'oklch' => self::WHITE_OKLCH,
-			'cmyk' => self::WHITE_CMYK,
-		];
+		$result1 = Convert::hex(self::WHITE_HEX);
+		$result2 = Convert::hex(Color::White->getHex());
 
-		$this->assertSame($expected, Convert::hex(self::WHITE_HEX));
-		$this->assertSame($expected, Convert::hex(Color::White->getHex()));
+		$this->assertSame(self::WHITE_RGB, $result1['rgb']);
+		$this->assertSame(self::WHITE_RGBA, $result1['rgba']);
+		$this->assertSame(self::WHITE_HSL, $result1['hsl']);
+		$this->assertSame(self::WHITE_OKLCH, $result1['oklch']);
+		$this->assertSame(self::WHITE_CMYK, $result1['cmyk']);
+
+		$this->assertSame(self::WHITE_RGB, $result2['rgb']);
+		$this->assertSame(self::WHITE_RGBA, $result2['rgba']);
+		$this->assertSame(self::WHITE_HSL, $result2['hsl']);
+		$this->assertSame(self::WHITE_OKLCH, $result2['oklch']);
+		$this->assertSame(self::WHITE_CMYK, $result2['cmyk']);
 	}
 
 	public function testHexRed500(): void
 	{
-		$expected = [
-			'rgb' => self::RED500_RGB,
-			'rgba' => self::RED500_RGBA,
-			'hsl' => self::RED500_HSL,
-			'oklch' => self::RED500_OKLCH,
-			'cmyk' => self::RED500_CMYK,
-		];
+		$result1 = Convert::hex(self::RED500_HEX);
+		$result2 = Convert::hex(Color::Red500->getHex());
 
-		$this->assertSame($expected, Convert::hex(self::RED500_HEX));
-		$this->assertSame($expected, Convert::hex(Color::Red500->getHex()));
+		$this->assertSame(self::RED500_RGB, $result1['rgb']);
+		$this->assertSame(self::RED500_RGBA, $result1['rgba']);
+		$this->assertSame(self::RED500_HSL, $result1['hsl']);
+		$this->assertSame(self::RED500_OKLCH, $result1['oklch']);
+		$this->assertSame(self::RED500_CMYK, $result1['cmyk']);
+
+		$this->assertSame(self::RED500_RGB, $result2['rgb']);
+		$this->assertSame(self::RED500_RGBA, $result2['rgba']);
+		$this->assertSame(self::RED500_HSL, $result2['hsl']);
+		$this->assertSame(self::RED500_OKLCH, $result2['oklch']);
+		$this->assertSame(self::RED500_CMYK, $result2['cmyk']);
 	}
 
 	public function testHex2RgbBlack(): void
 	{
-		$expected = self::BLACK_RGB;
+		$this->assertSame(self::BLACK_RGB, Convert::hex(self::BLACK_HEX)->toRgb());
+		$this->assertSame(self::BLACK_RGB, Convert::hex(Color::Black->getHex())->toRgb());
 
-		$this->assertSame($expected, Convert::hexToRgb(self::BLACK_HEX));
-		$this->assertSame($expected, Convert::hexToRgb(Color::Black->getHex()));
+		$this->assertSame(self::BLACK_RGB, Convert::hexToRgb(self::BLACK_HEX));
+		$this->assertSame(self::BLACK_RGB, Convert::hexToRgb(Color::Black->getHex()));
 	}
 
 	public function testHex2RgbWhite(): void
 	{
-		$expected = self::WHITE_RGB;
+		$this->assertSame(self::WHITE_RGB, Convert::hex(self::WHITE_HEX)->toRgb());
+		$this->assertSame(self::WHITE_RGB, Convert::hex(Color::White->getHex())->toRgb());
 
-		$this->assertSame($expected, Convert::hexToRgb(self::WHITE_HEX));
-		$this->assertSame($expected, Convert::hexToRgb(Color::White->getHex()));
+		$this->assertSame(self::WHITE_RGB, Convert::hexToRgb(self::WHITE_HEX));
+		$this->assertSame(self::WHITE_RGB, Convert::hexToRgb(Color::White->getHex()));
 	}
 
 	public function testHex2RgbRed500(): void
 	{
-		$expected = self::RED500_RGB;
+		$this->assertSame(self::RED500_RGB, Convert::hex(self::RED500_HEX)->toRgb());
+		$this->assertSame(self::RED500_RGB, Convert::hex(Color::Red500->getHex())->toRgb());
 
-		$this->assertSame($expected, Convert::hexToRgb(self::RED500_HEX));
-		$this->assertSame($expected, Convert::hexToRgb(Color::Red500->getHex()));
+		$this->assertSame(self::RED500_RGB, Convert::hexToRgb(self::RED500_HEX));
+		$this->assertSame(self::RED500_RGB, Convert::hexToRgb(Color::Red500->getHex()));
 	}
 
 	public function testHex2RgbaBlack(): void
 	{
-		$expected = self::BLACK_RGBA;
+		$this->assertSame(self::BLACK_RGBA, Convert::hex(self::BLACK_HEX)->toRgba());
+		$this->assertSame(self::BLACK_RGBA, Convert::hex(Color::Black->getHex())->toRgba());
 
-		$this->assertSame($expected, Convert::hexToRgba(self::BLACK_HEX));
-		$this->assertSame($expected, Convert::hexToRgba(Color::Black->getHex()));
+		$this->assertSame(self::BLACK_RGBA, Convert::hexToRgba(self::BLACK_HEX));
+		$this->assertSame(self::BLACK_RGBA, Convert::hexToRgba(Color::Black->getHex()));
 	}
 
 	public function testHex2RgbaWhite(): void
 	{
-		$expected = self::WHITE_RGBA;
+		$this->assertSame(self::WHITE_RGBA, Convert::hex(self::WHITE_HEX)->toRgba());
+		$this->assertSame(self::WHITE_RGBA, Convert::hex(Color::White->getHex())->toRgba());
 
-		$this->assertSame($expected, Convert::hexToRgba(self::WHITE_HEX));
-		$this->assertSame($expected, Convert::hexToRgba(Color::White->getHex()));
+		$this->assertSame(self::WHITE_RGBA, Convert::hexToRgba(self::WHITE_HEX));
+		$this->assertSame(self::WHITE_RGBA, Convert::hexToRgba(Color::White->getHex()));
 	}
 
 	public function testHex2RgbaRed500(): void
 	{
-		$expected = self::RED500_RGBA;
+		$this->assertSame(self::RED500_RGBA, Convert::hex(self::RED500_HEX)->toRgba());
+		$this->assertSame(self::RED500_RGBA, Convert::hex(Color::Red500->getHex())->toRgba());
 
-		$this->assertSame($expected, Convert::hexToRgba(self::RED500_HEX));
-		$this->assertSame($expected, Convert::hexToRgba(Color::Red500->getHex()));
+		$this->assertSame(self::RED500_RGBA, Convert::hexToRgba(self::RED500_HEX));
+		$this->assertSame(self::RED500_RGBA, Convert::hexToRgba(Color::Red500->getHex()));
 	}
 
 	public function testHex2HslBlack(): void
 	{
-		$expected = self::BLACK_HSL;
+		$this->assertSame(self::BLACK_HSL, Convert::hex(self::BLACK_HEX)->toHsl());
+		$this->assertSame(self::BLACK_HSL, Convert::hex(Color::Black->getHex())->toHsl());
 
-		$this->assertSame($expected, Convert::hexToHsl(self::BLACK_HEX));
-		$this->assertSame($expected, Convert::hexToHsl(Color::Black->getHex()));
+		$this->assertSame(self::BLACK_HSL, Convert::hexToHsl(self::BLACK_HEX));
+		$this->assertSame(self::BLACK_HSL, Convert::hexToHsl(Color::Black->getHex()));
 	}
 
 	public function testHex2HslWhite(): void
 	{
-		$expected = self::WHITE_HSL;
+		$this->assertSame(self::WHITE_HSL, Convert::hex(self::WHITE_HEX)->toHsl());
+		$this->assertSame(self::WHITE_HSL, Convert::hex(Color::White->getHex())->toHsl());
 
-		$this->assertSame($expected, Convert::hexToHsl(self::WHITE_HEX));
-		$this->assertSame($expected, Convert::hexToHsl(Color::White->getHex()));
+		$this->assertSame(self::WHITE_HSL, Convert::hexToHsl(self::WHITE_HEX));
+		$this->assertSame(self::WHITE_HSL, Convert::hexToHsl(Color::White->getHex()));
 	}
 
 	public function testHex2HslRed500(): void
 	{
-		$expected = self::RED500_HSL;
+		$this->assertSame(self::RED500_HSL, Convert::hex(self::RED500_HEX)->toHsl());
+		$this->assertSame(self::RED500_HSL, Convert::hex(Color::Red500->getHex())->toHsl());
 
-		$this->assertSame($expected, Convert::hexToHsl(self::RED500_HEX));
-		$this->assertSame($expected, Convert::hexToHsl(Color::Red500->getHex()));
+		$this->assertSame(self::RED500_HSL, Convert::hexToHsl(self::RED500_HEX));
+		$this->assertSame(self::RED500_HSL, Convert::hexToHsl(Color::Red500->getHex()));
 	}
 
 	public function testHex2OklchBlack(): void
 	{
-		$expected = self::BLACK_OKLCH;
+		$this->assertSame(self::BLACK_OKLCH, Convert::hex(self::BLACK_HEX)->toOklch());
+		$this->assertSame(self::BLACK_OKLCH, Convert::hex(Color::Black->getHex())->toOklch());
 
-		$this->assertSame($expected, Convert::hexToOklch(self::BLACK_HEX));
-		$this->assertSame($expected, Convert::hexToOklch(Color::Black->getHex()));
+		$this->assertSame(self::BLACK_OKLCH, Convert::hexToOklch(self::BLACK_HEX));
+		$this->assertSame(self::BLACK_OKLCH, Convert::hexToOklch(Color::Black->getHex()));
 	}
 
 	public function testHex2OklchWhite(): void
 	{
-		$expected = self::WHITE_OKLCH;
+		$this->assertSame(self::WHITE_OKLCH, Convert::hex(self::WHITE_HEX)->toOklch());
+		$this->assertSame(self::WHITE_OKLCH, Convert::hex(Color::White->getHex())->toOklch());
 
-		$this->assertSame($expected, Convert::hexToOklch(self::WHITE_HEX));
-		$this->assertSame($expected, Convert::hexToOklch(Color::White->getHex()));
+		$this->assertSame(self::WHITE_OKLCH, Convert::hexToOklch(self::WHITE_HEX));
+		$this->assertSame(self::WHITE_OKLCH, Convert::hexToOklch(Color::White->getHex()));
 	}
 
 	public function testHex2OklchRed500(): void
 	{
-		$expected = self::RED500_OKLCH;
+		$this->assertSame(self::RED500_OKLCH, Convert::hex(self::RED500_HEX)->toOklch());
+		$this->assertSame(self::RED500_OKLCH, Convert::hex(Color::Red500->getHex())->toOklch());
 
-		$this->assertSame($expected, Convert::hexToOklch(self::RED500_HEX));
-		$this->assertSame($expected, Convert::hexToOklch(Color::Red500->getHex()));
+		$this->assertSame(self::RED500_OKLCH, Convert::hexToOklch(self::RED500_HEX));
+		$this->assertSame(self::RED500_OKLCH, Convert::hexToOklch(Color::Red500->getHex()));
 	}
 
 	public function testHex2CmykBlack(): void
 	{
-		$expected = self::BLACK_CMYK;
+		$this->assertSame(self::BLACK_CMYK, Convert::hex(self::BLACK_HEX)->toCmyk());
+		$this->assertSame(self::BLACK_CMYK, Convert::hex(Color::Black->getHex())->toCmyk());
 
-		$this->assertSame($expected, Convert::hexToCmyk(self::BLACK_HEX));
-		$this->assertSame($expected, Convert::hexToCmyk(Color::Black->getHex()));
+		$this->assertSame(self::BLACK_CMYK, Convert::hexToCmyk(self::BLACK_HEX));
+		$this->assertSame(self::BLACK_CMYK, Convert::hexToCmyk(Color::Black->getHex()));
 	}
 
 	public function testHex2CmykWhite(): void
 	{
-		$expected = self::WHITE_CMYK;
+		$this->assertSame(self::WHITE_CMYK, Convert::hex(self::WHITE_HEX)->toCmyk());
+		$this->assertSame(self::WHITE_CMYK, Convert::hex(Color::White->getHex())->toCmyk());
 
-		$this->assertSame($expected, Convert::hexToCmyk(self::WHITE_HEX));
-		$this->assertSame($expected, Convert::hexToCmyk(Color::White->getHex()));
+		$this->assertSame(self::WHITE_CMYK, Convert::hexToCmyk(self::WHITE_HEX));
+		$this->assertSame(self::WHITE_CMYK, Convert::hexToCmyk(Color::White->getHex()));
 	}
 
 	public function testHex2CmykRed500(): void
 	{
-		$expected = self::RED500_CMYK;
+		$this->assertSame(self::RED500_CMYK, Convert::hex(self::RED500_HEX)->toCmyk());
+		$this->assertSame(self::RED500_CMYK, Convert::hex(Color::Red500->getHex())->toCmyk());
 
-		$this->assertSame($expected, Convert::hexToCmyk(self::RED500_HEX));
-		$this->assertSame($expected, Convert::hexToCmyk(Color::Red500->getHex()));
+		$this->assertSame(self::RED500_CMYK, Convert::hexToCmyk(self::RED500_HEX));
+		$this->assertSame(self::RED500_CMYK, Convert::hexToCmyk(Color::Red500->getHex()));
 	}
 }
