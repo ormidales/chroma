@@ -1359,27 +1359,27 @@ enum Color: int
 
 	public function getRgb(): string
 	{
-		return Convert::hex2rgb($this->getHex());
+		return Convert::hexToRgb($this->getHex());
 	}
 
 	public function getRgba(float $alpha = 1.0): string
 	{
-		return Convert::hex2rgba($this->getHex(), $alpha);
+		return Convert::hexToRgba($this->getHex(), $alpha);
 	}
 
 	public function getHsl(): string
 	{
-		return Convert::hex2hsl($this->getHex());
+		return Convert::hexToHsl($this->getHex());
 	}
 
 	public function getOklch(): string
 	{
-		return Convert::hex2oklch($this->getHex());
+		return Convert::hexToOklch($this->getHex());
 	}
 
 	public function getCmyk(): string
 	{
-		return Convert::hex2cmyk($this->getHex());
+		return Convert::hexToCmyk($this->getHex());
 	}
 
 	public function getParsedHex(): array
