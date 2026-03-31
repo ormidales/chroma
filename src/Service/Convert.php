@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Pyreweb\Chroma\Service;
 
 use Pyreweb\Chroma\Service\Colorimetry;
+use Pyreweb\Chroma\Service\ConvertHex;
 use Pyreweb\Chroma\Service\Parse;
 
 /**
@@ -36,15 +37,9 @@ class Convert
 	public const OKLAB_B_M = 0.7827717662;
 	public const OKLAB_B_S = -0.8086757660;
 
-	public static function hex(string $hex, float $alpha = 1.0): array
+	public static function hex(string $hex, float $alpha = 1.0): ConvertHex
 	{
-		return [
-			'rgb' => self::hexToRgb($hex),
-			'rgba' => self::hexToRgba($hex, $alpha),
-			'hsl' => self::hexToHsl($hex),
-			'oklch' => self::hexToOklch($hex),
-			'cmyk' => self::hexToCmyk($hex),
-		];
+		return new ConvertHex($hex, $alpha);
 	}
 
 	public static function hexToRgb(string $hex): string
