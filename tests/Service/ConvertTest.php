@@ -18,6 +18,7 @@ class ConvertTest extends TestCase
 	private const BLACK_HEX = '#000000';
 	private const BLACK_RGB = 'rgb(0, 0, 0)';
 	private const BLACK_RGBA = 'rgba(0, 0, 0, 1)';
+	private const BLACK_RGBA_50 = 'rgba(0, 0, 0, 0.5)';
 	private const BLACK_HSL = 'hsl(0, 0%, 0%)';
 	private const BLACK_OKLCH = 'oklch(0%, 0%, 0)';
 	private const BLACK_CMYK = 'cmyk(0%, 0%, 0%, 100%)';
@@ -25,6 +26,7 @@ class ConvertTest extends TestCase
 	private const WHITE_HEX = '#FFFFFF';
 	private const WHITE_RGB = 'rgb(255, 255, 255)';
 	private const WHITE_RGBA = 'rgba(255, 255, 255, 1)';
+	private const WHITE_RGBA_50 = 'rgba(255, 255, 255, 0.5)';
 	private const WHITE_HSL = 'hsl(0, 0%, 100%)';
 	private const WHITE_OKLCH = 'oklch(100%, 0%, 0)';
 	private const WHITE_CMYK = 'cmyk(0%, 0%, 0%, 0%)';
@@ -32,9 +34,12 @@ class ConvertTest extends TestCase
 	private const RED500_HEX = '#ef4444';
 	private const RED500_RGB = 'rgb(239, 68, 68)';
 	private const RED500_RGBA = 'rgba(239, 68, 68, 1)';
+	private const RED500_RGBA_50 = 'rgba(239, 68, 68, 0.5)';
 	private const RED500_HSL = 'hsl(0, 84.24%, 60.2%)';
 	private const RED500_OKLCH = 'oklch(63.68%, 20.78%, 25.33132777693)';
 	private const RED500_CMYK = 'cmyk(0%, 71.55%, 71.55%, 6.27%)';
+
+	private const ALPHA = 0.5;
 
 	public function testHexBlack(): void
 	{
@@ -122,8 +127,14 @@ class ConvertTest extends TestCase
 		$this->assertSame(self::BLACK_RGBA, Convert::hex(self::BLACK_HEX)->toRgba());
 		$this->assertSame(self::BLACK_RGBA, Convert::hex(Color::Black->getHex())->toRgba());
 
+		$this->assertSame(self::BLACK_RGBA_50, Convert::hex(self::BLACK_HEX)->toRgba(self::ALPHA));
+		$this->assertSame(self::BLACK_RGBA_50, Convert::hex(Color::Black->getHex())->toRgba(self::ALPHA));
+
 		$this->assertSame(self::BLACK_RGBA, Convert::hexToRgba(self::BLACK_HEX));
 		$this->assertSame(self::BLACK_RGBA, Convert::hexToRgba(Color::Black->getHex()));
+
+		$this->assertSame(self::BLACK_RGBA_50, Convert::hexToRgba(self::BLACK_HEX, self::ALPHA));
+		$this->assertSame(self::BLACK_RGBA_50, Convert::hexToRgba(Color::Black->getHex(), self::ALPHA));
 	}
 
 	public function testHex2RgbaWhite(): void
@@ -131,8 +142,14 @@ class ConvertTest extends TestCase
 		$this->assertSame(self::WHITE_RGBA, Convert::hex(self::WHITE_HEX)->toRgba());
 		$this->assertSame(self::WHITE_RGBA, Convert::hex(Color::White->getHex())->toRgba());
 
+		$this->assertSame(self::WHITE_RGBA_50, Convert::hex(self::WHITE_HEX)->toRgba(self::ALPHA));
+		$this->assertSame(self::WHITE_RGBA_50, Convert::hex(Color::White->getHex())->toRgba(self::ALPHA));
+
 		$this->assertSame(self::WHITE_RGBA, Convert::hexToRgba(self::WHITE_HEX));
 		$this->assertSame(self::WHITE_RGBA, Convert::hexToRgba(Color::White->getHex()));
+
+		$this->assertSame(self::WHITE_RGBA_50, Convert::hexToRgba(self::WHITE_HEX, self::ALPHA));
+		$this->assertSame(self::WHITE_RGBA_50, Convert::hexToRgba(Color::White->getHex(), self::ALPHA));
 	}
 
 	public function testHex2RgbaRed500(): void
@@ -140,8 +157,14 @@ class ConvertTest extends TestCase
 		$this->assertSame(self::RED500_RGBA, Convert::hex(self::RED500_HEX)->toRgba());
 		$this->assertSame(self::RED500_RGBA, Convert::hex(Color::Red500->getHex())->toRgba());
 
+		$this->assertSame(self::RED500_RGBA_50, Convert::hex(self::RED500_HEX)->toRgba(self::ALPHA));
+		$this->assertSame(self::RED500_RGBA_50, Convert::hex(Color::Red500->getHex())->toRgba(self::ALPHA));
+
 		$this->assertSame(self::RED500_RGBA, Convert::hexToRgba(self::RED500_HEX));
 		$this->assertSame(self::RED500_RGBA, Convert::hexToRgba(Color::Red500->getHex()));
+
+		$this->assertSame(self::RED500_RGBA_50, Convert::hexToRgba(self::RED500_HEX, self::ALPHA));
+		$this->assertSame(self::RED500_RGBA_50, Convert::hexToRgba(Color::Red500->getHex(), self::ALPHA));
 	}
 
 	public function testHex2HslBlack(): void
