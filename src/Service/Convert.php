@@ -36,21 +36,21 @@ class Convert
 	public const OKLAB_B_M = 0.7827717662;
 	public const OKLAB_B_S = -0.8086757660;
 
-	public static function hex2rgb(string $hex): string
+	public static function hexToRgb(string $hex): string
 	{
 		[$r, $g, $b] = Parse::hex($hex);
 
 		return "rgb($r, $g, $b)";
 	}
 
-	public static function hex2rgba(string $hex, float $alpha = 1.0): string
+	public static function hexToRgba(string $hex, float $alpha = 1.0): string
 	{
 		[$r, $g, $b] = Parse::hex($hex);
 
 		return "rgba($r, $g, $b, $alpha)";
 	}
 
-	public static function hex2hsl(string $hex): string
+	public static function hexToHsl(string $hex): string
 	{
 		[$r, $g, $b] = Parse::hex($hex);
 
@@ -83,7 +83,7 @@ class Convert
 		return "hsl($h, " . round($s * self::PERCENT_MAX, 2) . "%, " . round($l * self::PERCENT_MAX, 2) . "%)";
 	}
 
-	public static function hex2oklch(string $hex): string
+	public static function hexToOklch(string $hex): string
 	{
 		[$r, $g, $b] = Parse::hex($hex);
 
@@ -109,7 +109,7 @@ class Convert
 		return "oklch(" . round($L * self::PERCENT_MAX, 2) . "%, " . round($C * self::PERCENT_MAX, 2) . "%, $H)";
 	}
 
-	public static function hex2cmyk(string $hex): string
+	public static function hexToCmyk(string $hex): string
 	{
 		[$r, $g, $b] = Parse::hex($hex);
 
