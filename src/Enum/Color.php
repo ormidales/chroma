@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Pyreweb\Chroma\Enum;
 
+use Pyreweb\Chroma\Interface\ColorInterface;
+
 use Pyreweb\Chroma\Service\Convert;
 use Pyreweb\Chroma\Service\Parse;
 
@@ -11,7 +13,7 @@ use Pyreweb\Chroma\Service\Parse;
  * @author Hugo Doueil <hugo@pyreweb.com>
  * @author Pyréweb <contact@pyreweb.com>
  */
-enum Color: int
+enum Color implements ColorInterface: int
 {
 	case Black = 1;
 	case White = 2;
@@ -550,17 +552,17 @@ enum Color: int
 		}
 	}
 
-	public function getId(): int
+	public function getId(): ?int
 	{
 		return $this->value;
 	}
 
-	public function getName(): string
+	public function getName(): ?string
 	{
 		return $this->name;
 	}
 
-	public function getCode(): int
+	public function getCode(): ?int
 	{
 		if (preg_match('/\d+$/', $this->getName(), $matches)) {
 			return (int) $matches[0];
@@ -569,7 +571,7 @@ enum Color: int
 		return 0;
 	}
 
-	public function getTitle(): string
+	public function getTitle(): ?string
 	{
 		return match($this) {
 			self::Black => 'Noir',
