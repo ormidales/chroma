@@ -85,7 +85,7 @@ $alpha = 0.5;
  * Hexadécimal vers autres
  */
 
-// Hexadécimal vers tous les autres, en array
+// Hexadécimal vers tous les autres
 Convert::hex('#ef4444', $alpha);
 Convert::hex(Color::Red500->getHex(), $alpha);
 
